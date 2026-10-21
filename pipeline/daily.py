@@ -149,7 +149,7 @@ def fetch_lrclib(title: str, artist: str, timeout: int = 15, tries: int = 3) -> 
 
 
 def get_lyrics(song: dict, cache_dir: Path, offline: bool) -> tuple[str, str]:
-    """回傳 (歌詞全文, 來源說明)。快取優先，抓不到再聯網，並寫回快取。"""
+    """回傳 (歌詞全文, 來源說明)。快取優先；聯網時走多源：LRCLIB → 網易雲 → QQ。"""
     cache_file = cache_dir / f"{song['id']}_{song['title']}.txt".replace("/", "_")
     if cache_file.exists():
         return cache_file.read_text(encoding="utf-8"), "cache"
@@ -158,15 +158,15 @@ def get_lyrics(song: dict, cache_dir: Path, offline: bool) -> tuple[str, str]:
             f"[offline] 快取裡沒有《{song['title']}》：{cache_file}\n"
             f"          先在有網路的機器上跑一次 dayliy.py（去掉 --offline）生成快取。"
         )
-    try:
-        lyric = fetch_lrclib(song["title"], song["artist"])
-    except Exception as exc:  # 網路/解析失敗
-        raise RuntimeError(f"抓詞失敗《{song['title']}》：{exc}") from exc
+
+    import lyric_sources
+    lyric, src = lyric_sources.fetch_any(song["title"], song["artist"])
     if not lyric:
-        raise RuntimeError(f"歌詞源沒有《{song['title']}》({song['artist']}) 的歌詞")
+        raise RuntimeError(f"三个源都没有《{song['title']}》({song['artist']}) 的歌詞")
+
     cache_file.parent.mkdir(parents=True, exist_ok=True)
     cache_file.write_text(lyric, encoding="utf-8")
-    return lyric, "lrclib"
+    return lyric, src
 
 
 # ---------------------------------------------------------------- 候選行
@@ -248,7 +248,9 @@ def call_ai(lines: list[str], song: dict, ctx: str) -> int | None:
         "- 避開最爛大街的那句（通常是歌名或副歌第一句），優先選主歌裡被忽略的好句\n"
         "- 不要帶到具體人名、地名、品牌\n\n"
         f"{numbered}\n\n"
-        '只回傳 JSON：{"line": 序號, "why": "一句話說明為什麼適合今天"}'
+        '重要：**原樣抄寫**你選中的那一行（逐字，不要改字、不要加標點），'
+        '不要只給序號。\n'
+        '只回傳 JSON：{"line": "抄寫的原文", "why": "一句話說明為什麼適合今天"}'
     )
     payload = {
         "model": model,
@@ -268,16 +270,95 @@ def call_ai(lines: list[str], song: dict, ctx: str) -> int | None:
         return None
     try:
         obj = json.loads(m.group(0))
-        idx = int(obj.get("line", 0)) - 1
+        val = obj.get("line", "")
     except Exception:
         return None
-    if 0 <= idx < len(lines):
+
+    def norm(t: str) -> str:
+        return re.sub(r"[\s\W_]+", "", str(t))
+
+    idx = None
+    if isinstance(val, int):                       # 兼容旧的「返回序號」写法
+        idx = val - 1
+    else:
+        want = norm(val)
+        if want:
+            # 完全一致
+            for i, ln in enumerate(lines):
+                if norm(ln) == want:
+                    idx = i
+                    break
+            # 允许模型手滑漏字/多字：取包含关系
+            if idx is None:
+                for i, ln in enumerate(lines):
+                    n = norm(ln)
+                    if want in n or n in want:
+                        idx = i
+                        break
+
+    if idx is not None and 0 <= idx < len(lines):
         log(f"  AI 理由：{obj.get('why', '')}")
+        log(f"  AI 抄回：{val if isinstance(val, str) else lines[idx]}")
         return idx
+    log(f"  AI 返回的句子对不上原文（{str(val)[:30]}），本次不用")
     return None
 
 
 # ---------------------------------------------------------------- 選歌
+
+
+
+def extract_passage(lyric: str, anchor: str, max_lines: int = 4, budget: int = 46) -> list[str]:
+    """从整首歌词里，取出包含 anchor 的一段连续原文（默认 4 行 / 46 字以内）。
+
+    只在同一段（空行分隔）内延伸，避免把毫不相干的两句拼在一起；
+    这样屏上滚动的是完整的一段意境，而不是断章取义的一句。
+    """
+    raw = [ln.strip() for ln in lyric.splitlines() if not ln.startswith("[")]
+    key = anchor.split(" ")[0][:6]
+    idx = next((i for i, ln in enumerate(raw) if ln and key and key in ln), None)
+    if idx is None:
+        return [anchor]
+
+    passage = [raw[idx]]
+    chars = len(raw[idx].replace(" ", ""))
+    for j in range(idx + 1, len(raw)):
+        if not raw[j]:                       # 空行 = 换段，停
+            break
+        n = len(raw[j].replace(" ", ""))
+        if chars + n > budget or len(passage) >= max_lines:
+            break
+        passage.append(raw[j])
+        chars += n
+    return passage
+
+
+def wrap_lyric(text: str, width: int = 10) -> list[str]:
+    """把一句歌词折成每行不超过 width 个汉字的若干行。
+
+    优先在空格（歌詞原本的断句处）折，实在超长才硬切。
+    128×64 的屏一行只放得下 10 个 12px 汉字，所以在写 today.txt 时就折好。
+    """
+    out: list[str] = []
+    cur = ""
+    for phrase in text.split():
+        if not phrase:
+            continue
+        if len(cur) + len(phrase) <= width:
+            cur += phrase
+            continue
+        if cur:
+            out.append(cur)
+            cur = ""
+        # 单句就超宽，硬切
+        while len(phrase) > width:
+            out.append(phrase[:width])
+            phrase = phrase[width:]
+        cur = phrase
+    if cur:
+        out.append(cur)
+    return out or [text]
+
 
 def resolve_special(songs: list, titles: list) -> list:
     """把 "歌名/歌手" 列表映射到曲库条目，曲库里没有的自动跳过。"""
@@ -329,7 +410,7 @@ def pick_song(songs: list[dict], day: date, weather: str, history: dict,
 # ---------------------------------------------------------------- 主流程
 def build(day: date, weather: str, catalog_path: Path, cache_dir: Path,
           state_dir: Path, out_path: Path, offline: bool, no_ai: bool,
-          song_id: str | None = None) -> dict:
+          song_id: str | None = None, source: str = "auto") -> dict:
     catalog = read_json(catalog_path)
     if not catalog:
         raise SystemExit(f"找不到曲庫：{catalog_path}")
@@ -353,14 +434,31 @@ def build(day: date, weather: str, catalog_path: Path, cache_dir: Path,
         if not song:
             raise SystemExit(f"曲庫裡沒有 id={song_id}")
 
-    # 候选顺序：节日指定 → 天气指定 → 常规轮换（抓不到词就顺延到下一首）
-    candidates: list[dict] = []
+    # ① AI 每天自己找歌（不依赖曲库）；没有 key 就跳过
+    mode = source
+    if mode == "auto":
+        mode = "ai" if (os.environ.get("WC_AI_BASE") and os.environ.get("WC_AI_KEY")) else "catalog"
+    ai_songs: list[dict] = []
+    if mode == "ai" and not song_id:
+        try:
+            import discover
+            used_titles = [h.get("title", "") for h in history.get("used", [])]
+            ai_songs = discover.candidates(day, weather, special, used_titles, cache_dir)
+            log(f"      AI 找到 {len(ai_songs)} 首可用的歌")
+        except Exception as exc:
+            log(f"      AI 发现失败，回退曲库：{exc}")
+
+    # 候选顺序：AI 发现 → 节日指定 → 天气指定 → 常规轮换（抓不到词就顺延）
+    candidates: list[dict] = list(ai_songs)
     used_recent = {h["id"] for h in history.get("used", [])
                    if h["date"] >= (day - timedelta(days=20)).isoformat()}
 
     if special:
+        # 节日季允许同一首重复用：粤语圣诞歌本来就没几首，
+        # 平安夜和圣诞用同一首反而是对的
+        season = (special["kind"] == "節日")
         for s in resolve_special(songs, special.get("songs", [])):
-            if s["id"] not in used_recent:      # 20 天内用过就跳过，避免连着两天同一首
+            if season or s["id"] not in used_recent:
                 candidates.append(s)
                 log(f"      按 {special['name']} 指定：《{s['title']}》")
 
@@ -383,6 +481,8 @@ def build(day: date, weather: str, catalog_path: Path, cache_dir: Path,
         f"({song.get('year') or '年份不詳'}, 熱度 {song.get('hot')}, {','.join(song.get('tags', []))})")
 
     # 抓词：失败就换下一首候选（曲库里总有没被 LRCLIB 收录的冷门歌）
+    # 注意把已选定的 song 放到最前面，否则会被 pool[0] 覆盖
+    pool = [song] + [x for x in pool if x["id"] != song["id"]]
     lyric_text, src, tried = None, "", []
     for cand in pool[:5]:
         try:
@@ -413,6 +513,12 @@ def build(day: date, weather: str, catalog_path: Path, cache_dir: Path,
         idx, method = heuristic_pick(lines, seed=day.isoformat() + song["id"])
 
     line = lines[idx]
+
+    # 一句只是断章，把它的上下文一起取出来，意境才完整
+    passage = extract_passage(lyric_text, line, max_lines=4, budget=46)
+    if len(passage) > 1:
+        line = " ".join(passage)
+        log(f"      取上下文 {len(passage)} 行：{line}")
     result = {
         "date": day.isoformat(),
         "weekday": WEEKDAYS[day.weekday()],
@@ -440,13 +546,16 @@ def build(day: date, weather: str, catalog_path: Path, cache_dir: Path,
 
     # 给单片机读的极简格式：每行 key=value，比 JSON 好解析得多
     txt_path = out_path.with_suffix(".txt")
-    lyric_lines = [ln for ln in result["lyric"].split(" ") if ln] or [result["lyric"]]
+    lyric_lines = wrap_lyric(result["lyric"], 10)
     txt = [
         "date=" + result["date"],
         "weekday=" + result["weekday"],
     ]
-    for i, ln in enumerate(lyric_lines[:6], 1):
+    for i, ln in enumerate(lyric_lines[:8], 1):
         txt.append(f"lyric{i}={ln}")
+    if result["meta"].get("special"):
+        # meta 里是「節氣·冬至」，设备只要名字
+        txt.append("special=" + result["meta"]["special"].split("·")[-1])
     txt.append("title=" + result["song"]["title"])
     txt.append("artist=" + result["song"]["artist"])
     txt_path.write_text("\n".join(txt) + "\n", encoding="utf-8")
@@ -475,6 +584,8 @@ def main() -> None:
     ap.add_argument("--no-ai", action="store_true", help="不調模型，直接關鍵詞評分")
     ap.add_argument("--render", action="store_true", help="順便渲染卡片 PNG")
     ap.add_argument("--song-id", help="強制指定曲庫裡的某首歌（除錯/手動換歌）")
+    ap.add_argument("--source", choices=["auto", "ai", "catalog"], default="auto",
+                    help="選歌來源：ai=讓模型每天自己找（需 WC_AI_KEY），catalog=從曲庫挑")
     ap.add_argument("--simulate", type=int, metavar="N",
                     help="只跑選歌邏輯，印出未來 N 天的排程（不抓詞、不調模型），用來檢查重複度")
     args = ap.parse_args()
@@ -498,7 +609,7 @@ def main() -> None:
         return
 
     result = build(day, args.weather, args.catalog, args.cache,
-                   args.state, args.out, args.offline, args.no_ai, args.song_id)
+                   args.state, args.out, args.offline, args.no_ai, args.song_id, args.source)
     if args.render:
         import subprocess
         subprocess.run([sys.executable, str(ROOT / "pipeline" / "render_card.py"),
