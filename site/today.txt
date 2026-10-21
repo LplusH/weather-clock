@@ -1,6 +1,9 @@
 date=2026-10-21
 weekday=星期三
-lyric1=好景不會每日常在
-lyric2=天梯不可只往上爬
-title=喜帖街
-artist=謝安琪
+lyric1=富士聳峙
+lyric2=聽不見遊人歡笑
+lyric3=自由神像在遠方迷霧
+lyric4=山長水遠未入其懷抱
+lyric5=檀島灘岸點點磷光
+title=鐵塔凌雲
+artist=許冠傑
