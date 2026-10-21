@@ -1,9 +1,9 @@
 date=2026-10-21
 weekday=星期三
-lyric1=富士聳峙
-lyric2=聽不見遊人歡笑
-lyric3=自由神像在遠方迷霧
-lyric4=山長水遠未入其懷抱
-lyric5=檀島灘岸點點磷光
-title=鐵塔凌雲
-artist=許冠傑
+lyric1=如能忘掉渴望歲月長
+lyric2=衣裳薄無論於什麼角落
+lyric3=不假設你或會在旁
+lyric4=我也可暢遊異國
+lyric5=放心吃喝
+title=再见二丁目
+artist=杨千嬅
