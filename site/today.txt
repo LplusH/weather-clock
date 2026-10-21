@@ -1,6 +1,9 @@
 date=2026-10-21
 weekday=星期三
-lyric1=回音輕傳
-lyric2=此時此處此模樣
-title=鐵塔凌雲
-artist=許冠傑
+lyric1=出去一下還在戒煙
+lyric2=還用買煙嗎出去一下
+lyric3=原來為見一見它
+lyric4=出去一下瞞著太太
+lyric5=才獨處一下
+title=人车志
+artist=陈奕迅
