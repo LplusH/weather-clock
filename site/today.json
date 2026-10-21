@@ -1,24 +1,21 @@
 {
   "date": "2026-10-21",
   "weekday": "星期三",
-  "lyric": "富士聳峙 聽不見遊人歡笑 自由神像 在遠方迷霧 山長水遠 未入其懷抱 檀島灘岸 點點磷光",
+  "lyric": "如能忘掉渴望 歲月長 衣裳薄 無論於什麼角落 不假設你或會在旁 我也可暢遊異國 放心吃喝",
   "song": {
-    "title": "鐵塔凌雲",
-    "artist": "許冠傑",
-    "year": 1972,
-    "hot": 2,
-    "tags": [
-      "哲理",
-      "城市"
-    ]
+    "title": "再见二丁目",
+    "artist": "杨千嬅",
+    "year": null,
+    "hot": 1,
+    "tags": []
   },
   "meta": {
-    "generated_at": "2026-10-21T22:05:41+08:00",
+    "generated_at": "2026-10-21T22:20:37+08:00",
     "weather": "cloudy",
     "special": null,
     "method": "heuristic",
     "lyrics_source": "cache",
-    "candidates": 18,
-    "line_no": 4
+    "candidates": 31,
+    "line_no": 28
   }
 }
