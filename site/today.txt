@@ -1,9 +1,8 @@
 date=2026-10-21
 weekday=星期三
-lyric1=出去一下還在戒煙
-lyric2=還用買煙嗎出去一下
-lyric3=原來為見一見它
-lyric4=出去一下瞞著太太
-lyric5=才獨處一下
-title=人车志
+lyric1=不要緊山野都有霧燈
+lyric2=頑童亦學乖不敢太勇敢
+lyric3=世上有多少個繽紛樂園
+lyric4=任你行
+title=任我行
 artist=陈奕迅
