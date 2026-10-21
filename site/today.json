@@ -1,24 +1,21 @@
 {
   "date": "2026-10-21",
   "weekday": "星期三",
-  "lyric": "回音輕傳 此時此處此模樣",
+  "lyric": "出去一下 還在戒煙 還用買煙嗎 出去一下 原來為見一見它 出去一下 瞞著太太 才獨處一下",
   "song": {
-    "title": "鐵塔凌雲",
-    "artist": "許冠傑",
-    "year": 1972,
-    "hot": 2,
-    "tags": [
-      "哲理",
-      "城市"
-    ]
+    "title": "人车志",
+    "artist": "陈奕迅",
+    "year": null,
+    "hot": 1,
+    "tags": []
   },
   "meta": {
-    "generated_at": "2026-10-21T14:21:28+00:00",
+    "generated_at": "2026-10-21T22:33:49+08:00",
     "weather": "cloudy",
     "special": null,
     "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 18,
-    "line_no": 15
+    "candidates": 36,
+    "line_no": 26
   }
 }
