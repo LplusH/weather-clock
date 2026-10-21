@@ -1,0 +1,24 @@
+{
+  "date": "2027-01-07",
+  "weekday": "星期四",
+  "lyric": "神遇到 佛碰到 但我希望碰到我",
+  "song": {
+    "title": "彳亍",
+    "artist": "麥浚龍",
+    "year": 2018,
+    "hot": 2,
+    "tags": [
+      "哲理",
+      "孤獨"
+    ]
+  },
+  "meta": {
+    "generated_at": "2026-10-21T20:33:50+08:00",
+    "weather": "cloudy",
+    "special": null,
+    "method": "heuristic",
+    "lyrics_source": "lrclib",
+    "candidates": 25,
+    "line_no": 8
+  }
+}

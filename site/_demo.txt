@@ -1,0 +1,7 @@
+date=2027-01-07
+weekday=星期四
+lyric1=神遇到
+lyric2=佛碰到
+lyric3=但我希望碰到我
+title=彳亍
+artist=麥浚龍

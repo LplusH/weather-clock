@@ -25,10 +25,14 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.parse
 import urllib.request
 from datetime import date, datetime, timedelta
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from calendar_cn import describe as describe_day, WEATHER_SONGS
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_CATALOG = ROOT / "catalog.json"
@@ -91,13 +95,32 @@ def visible_len(s: str) -> int:
 
 
 # ---------------------------------------------------------------- 抓歌詞
-def fetch_lrclib(title: str, artist: str, timeout: int = 15) -> str | None:
-    """LRCLIB：免費、免 key、有粵語覆蓋。回傳 plainLyrics 純文字。"""
+def fetch_lrclib(title: str, artist: str, timeout: int = 15, tries: int = 3) -> str | None:
+    """LRCLIB：免費、免 key、有粵語覆蓋。回傳 plainLyrics 純文字。
+
+    LRCLIB 偶爾回 503（限流），重試兩次通常就過；三次都失敗再往上拋。
+    """
     q = urllib.parse.quote(f"{title} {artist}")
     url = f"https://lrclib.net/api/search?q={q}"
-    req = urllib.request.Request(url, headers={"User-Agent": "cantonese-weather-clock/1.0"})
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
-        data = json.loads(resp.read().decode("utf-8"))
+    data = None
+    for attempt in range(tries):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "cantonese-weather-clock/1.0"})
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+            break
+        except urllib.error.HTTPError as exc:
+            if exc.code in (429, 502, 503) and attempt < tries - 1:
+                time.sleep(1.5 * (attempt + 1))
+                continue
+            raise
+        except Exception:
+            if attempt < tries - 1:
+                time.sleep(1.0)
+                continue
+            raise
+    if data is None:
+        return None
     if not isinstance(data, list) or not data:
         return None
 
@@ -255,6 +278,36 @@ def call_ai(lines: list[str], song: dict, ctx: str) -> int | None:
 
 
 # ---------------------------------------------------------------- 選歌
+
+def resolve_special(songs: list, titles: list) -> list:
+    """把 "歌名/歌手" 列表映射到曲库条目，曲库里没有的自动跳过。"""
+    out = []
+    for t in titles:
+        for s in songs:
+            if f"{s['title']}/{s['artist']}" == t:
+                out.append(s)
+                break
+    return out
+
+
+def rank_songs(songs: list[dict], day: date, weather: str, history: dict,
+               cooldown_days: int) -> list[dict]:
+    """按「天气/星期契合度 → 冷门优先 → 日期哈希」排出候选顺序。"""
+    used = {h["id"]: h["date"] for h in history.get("used", [])}
+    cutoff = (day - timedelta(days=cooldown_days)).isoformat()
+
+    fresh = [s for s in songs if used.get(s["id"], "0000-00-00") < cutoff]
+    pool = fresh or songs                       # 曲库不够大时允许重复
+
+    want = set(WEEKDAY_TAGS.get(day.weekday(), [])) | set(WEATHER_TAGS.get(weather, []))
+    scored = []
+    for s in pool:
+        affinity = len(want & set(s.get("tags", [])))
+        scored.append((-affinity, s.get("hot", 3), stable_hash(day.isoformat(), s["id"]), s))
+    scored.sort(key=lambda t: (t[0], t[1], t[2]))
+    return [t[3] for t in scored]
+
+
 def pick_song(songs: list[dict], day: date, weather: str, history: dict,
               cooldown_days: int) -> dict:
     used = {h["id"]: h["date"] for h in history.get("used", [])}
@@ -288,16 +341,62 @@ def build(day: date, weather: str, catalog_path: Path, cache_dir: Path,
     ctx = f"{day.isoformat()} {WEEKDAYS[day.weekday()]}，天氣 {weather}"
     log(f"[1/4] 日期 {ctx}")
 
+    # ① 今天是什么日子？（节气 / 节日）
+    special = describe_day(day)
+    if special:
+        log(f"      今天是 {special['kind']}：{special['name']}")
+
+    # ② 选歌优先级：手动指定 > 节日/节气指定 > 下雨指定 > 常规轮换
     song = None
     if song_id:
         song = next((s for s in songs if s["id"] == song_id), None)
         if not song:
             raise SystemExit(f"曲庫裡沒有 id={song_id}")
-    song = song or pick_song(songs, day, weather, history, cooldown_days=90)
+
+    # 候选顺序：节日指定 → 天气指定 → 常规轮换（抓不到词就顺延到下一首）
+    candidates: list[dict] = []
+    used_recent = {h["id"] for h in history.get("used", [])
+                   if h["date"] >= (day - timedelta(days=20)).isoformat()}
+
+    if special:
+        for s in resolve_special(songs, special.get("songs", [])):
+            if s["id"] not in used_recent:      # 20 天内用过就跳过，避免连着两天同一首
+                candidates.append(s)
+                log(f"      按 {special['name']} 指定：《{s['title']}》")
+
+    if weather in WEATHER_SONGS:
+        for s in resolve_special(songs, WEATHER_SONGS[weather]):
+            if s["id"] not in used_recent:
+                candidates.append(s)
+                log(f"      按天气（{weather}）指定：《{s['title']}》")
+
+    candidates += rank_songs(songs, day, weather, history, cooldown_days=90)
+
+    # 去重，保持顺序
+    seen_ids, pool = set(), []
+    for s in candidates:
+        if s["id"] not in seen_ids:
+            seen_ids.add(s["id"])
+            pool.append(s)
+    song = pool[0]
     log(f"[2/4] 今日歌曲：《{song['title']}》— {song['artist']} "
         f"({song.get('year') or '年份不詳'}, 熱度 {song.get('hot')}, {','.join(song.get('tags', []))})")
 
-    lyric_text, src = get_lyrics(song, cache_dir, offline)
+    # 抓词：失败就换下一首候选（曲库里总有没被 LRCLIB 收录的冷门歌）
+    lyric_text, src, tried = None, "", []
+    for cand in pool[:5]:
+        try:
+            lyric_text, src = get_lyrics(cand, cache_dir, offline)
+            song = cand
+            break
+        except Exception as exc:
+            tried.append(cand["title"])
+            log(f"      《{cand['title']}》抓不到词（{str(exc).splitlines()[0][:40]}），换下一首")
+    if not lyric_text:
+        raise SystemExit("连续 5 首都抓不到歌词，检查网络或曲库")
+    if tried:
+        log(f"      跳过 {len(tried)} 首：{'、'.join(tried)}")
+
     lines = candidate_lines(lyric_text)
     if len(lines) < 3:
         raise SystemExit(f"《{song['title']}》可用行太少（{len(lines)}），換一首或放寬 candidate_lines 條件")
@@ -328,6 +427,7 @@ def build(day: date, weather: str, catalog_path: Path, cache_dir: Path,
         "meta": {
             "generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
             "weather": weather,
+            "special": (f"{special['kind']}·{special['name']}" if special else None),
             "method": method,
             "lyrics_source": src,
             "candidates": len(lines),

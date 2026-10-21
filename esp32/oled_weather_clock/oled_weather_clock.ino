@@ -93,6 +93,31 @@ static void dottedLine(int y) {
   for (int x = 0; x < 128; x += 3) u8g2.drawPixel(x, y);
 }
 
+/* 连不上时扫一遍 2.4GHz 频段，把能看到的 SSID 打出来。
+   手机热点最常见的坑：默认开 5GHz，ESP32 只支持 2.4GHz，根本扫不到。 */
+static void scanAndReport() {
+  Serial.println("  [扫描] 扫描 2.4GHz 频段…");
+  int n = WiFi.scanNetworks();
+  if (n <= 0) {
+    Serial.println("  一个都扫不到：天线没接好？还是模块有问题？");
+    return;
+  }
+  bool found = false;
+  for (int i = 0; i < n; i++) {
+    bool hit = (WiFi.SSID(i) == WIFI_SSID);
+    if (hit) found = true;
+    Serial.printf("    %2d. %-22s ch%-3d %4d dBm%s\n",
+                  i + 1, WiFi.SSID(i).c_str(), WiFi.channel(i), WiFi.RSSI(i),
+                  hit ? "   <== 目标" : "");
+  }
+  if (!found) {
+    Serial.println("  [X] 没扫到目标 SSID —— 十有八九是热点只开了 5GHz：");
+    Serial.println("      iPhone：设置 → 个人热点 → 打开「最大兼容性」");
+    Serial.println("      Android：热点设置里把频段改成 2.4GHz");
+  }
+  WiFi.scanDelete();
+}
+
 /* 连 WiFi，最多等 15 秒 */
 static bool wifiConnect() {
   if (WiFi.status() == WL_CONNECTED) return true;
@@ -108,6 +133,7 @@ static bool wifiConnect() {
     Serial.print(".");
   }
   Serial.println("\n  WiFi 连接失败");
+  scanAndReport();
   return false;
 }
 
@@ -169,7 +195,9 @@ static void fetchTxt() {
     else if (k.startsWith("lyric"))     lyricLines[lyricN++] = v;
   }
 
-  cyclePx = (lyricN + GAP_LINES) * LINE_H;
+  // 只有歌词高度超过视口才滚动；放得下就静态显示
+  int contentH = lyricN * LINE_H;
+  cyclePx = (contentH <= VIEW_H) ? 0 : (contentH + GAP_LINES * LINE_H);
   yofs = 0;
   logf("  收到 %d 行歌词：%s\n", lyricN, lyricN ? lyricLines[0].c_str() : "");
   for (int i = 0; i < lyricN; i++) logf("    [%d] %s\n", i + 1, lyricLines[i].c_str());
@@ -219,6 +247,11 @@ static const char *wmoCn(int c) {
 
 /* ======================= 绘制 ======================= */
 static void drawLyrics() {
+  // 没有歌词时把原因写出来，不然屏幕上是一片空白，看不出卡在哪
+  if (lyricN == 0) {
+    drawCNText(u8g2, 4, VIEW_TOP + 2, netOk ? "歌词加载失败" : "离线中");
+    return;
+  }
   cnClipTop = VIEW_TOP;
   cnClipBot = VIEW_BOT;
   for (int i = 0; i < lyricN; i++) {
@@ -229,6 +262,55 @@ static void drawLyrics() {
   }
   cnClipTop = -32768;
   cnClipBot = 32767;
+}
+
+/* 星期：三个字母，索引对应 tm_wday（0=星期日） */
+static const char *WD_EN[] = {"SUN","MON","TUE","WED","THU","FRI","SAT"};
+
+/* ============ 天气图标：用形状画，不用中文字 ============
+   12×12 的格子，画在状态行右侧。code 是 WMO 天气代码。 */
+static void drawWeatherIcon(int x, int y, int code) {
+  if (code < 0) return;
+
+  if (code <= 1) {                       // 晴：圆 + 四道光线
+    u8g2.drawDisc(x + 5, y + 6, 3);
+    u8g2.drawLine(x + 5, y,      x + 5, y + 1);
+    u8g2.drawLine(x + 5, y + 11, x + 5, y + 12);
+    u8g2.drawLine(x,     y + 6,  x + 1, y + 6);
+    u8g2.drawLine(x + 9, y + 6,  x + 10, y + 6);
+    return;
+  }
+  if (code == 2 || code == 3) {          // 多云 / 阴：云
+    u8g2.drawBox(x + 2, y + 6, 8, 3);
+    u8g2.drawBox(x + 4, y + 4, 5, 2);
+    return;
+  }
+  if (code <= 48) {                      // 雾：三道横线
+    u8g2.drawLine(x + 1, y + 4, x + 9, y + 4);
+    u8g2.drawLine(x + 2, y + 7, x + 10, y + 7);
+    u8g2.drawLine(x + 1, y + 10, x + 9, y + 10);
+    return;
+  }
+  if (code <= 67 || (code >= 80 && code <= 82)) {   // 雨：云 + 三滴
+    u8g2.drawBox(x + 1, y + 3, 9, 3);
+    u8g2.drawBox(x + 3, y + 1, 5, 2);
+    u8g2.drawLine(x + 2, y + 8, x + 2, y + 10);
+    u8g2.drawLine(x + 5, y + 8, x + 5, y + 10);
+    u8g2.drawLine(x + 8, y + 8, x + 8, y + 10);
+    return;
+  }
+  if (code <= 77 || code >= 85) {        // 雪：云 + 三个点
+    u8g2.drawBox(x + 1, y + 3, 9, 3);
+    u8g2.drawBox(x + 3, y + 1, 5, 2);
+    u8g2.drawPixel(x + 2, y + 9);
+    u8g2.drawPixel(x + 5, y + 9);
+    u8g2.drawPixel(x + 8, y + 9);
+    return;
+  }
+  u8g2.drawBox(x + 1, y + 1, 9, 3);      // 雷：云 + 闪电
+  u8g2.drawLine(x + 6, y + 5, x + 4, y + 8);
+  u8g2.drawLine(x + 4, y + 8, x + 6, y + 8);
+  u8g2.drawLine(x + 6, y + 8, x + 4, y + 11);
 }
 
 static void drawFace() {
@@ -244,8 +326,11 @@ static void drawFace() {
   else          snprintf(left, sizeof(left), "--.--");
   u8g2.drawStr(2, 7, left);
 
+  // 星期几：三个字母，接着日期往后画（5x7 字体，7px 高，不会压到大时间）
+  if (haveTime) u8g2.drawStr(36, 7, WD_EN[t.tm_wday]);
+
   // WiFi 连接状态小点
-  if (netOk) u8g2.drawBox(46, 2, 3, 3);
+  if (netOk) u8g2.drawBox(74, 2, 3, 3);
 
   // 右上：温度 + 天气字（中文用自建字库）
   char right[12];
@@ -256,12 +341,8 @@ static void drawFace() {
 
   // 天气中文（晴/多云/雨…）用 12px 自建字库，画在右上角 y=0..11，
   // 正好落在 5x7 温度数字上方，不会压到大时间（大时间从 y=13 开始）
-  const char *wx = wmoCn(wmoCode);
-  if (wx && *wx) {
-    int n = 0;
-    for (const char *q = wx; *q; q++) if (((uint8_t)*q & 0xC0) != 0x80) n++;
-    drawCNText(u8g2, 126 - n * CN_W, 0, wx);
-  }
+  // 天气用图标表示，画在温度左边，不会和数字重叠
+  drawWeatherIcon(126 - rw - 15, 0, wmoCode);
 
   /* --- 大时间 --- */
   if (haveTime) {

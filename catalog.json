@@ -1,91 +1,1008 @@
 {
   "version": 1,
   "note": "曲库：只存歌曲元数据，不存任何歌词。歌词由 pipeline/daily.py 每天实时抓取。hot: 1=冷门 5=全民大热；选歌会优先 hot<=3 的作品，hot=5 的只保留极少量做兜底。year 不确定的写 null。",
-  "tag_vocab": ["打氣", "哲理", "無常", "放下", "自我", "堅持", "城市", "親情", "情感", "生活", "成長", "孤獨", "青春", "社會", "珍惜"],
+  "tag_vocab": [
+    "打氣",
+    "哲理",
+    "無常",
+    "放下",
+    "自我",
+    "堅持",
+    "城市",
+    "親情",
+    "情感",
+    "生活",
+    "成長",
+    "孤獨",
+    "青春",
+    "社會",
+    "珍惜"
+  ],
   "songs": [
-    { "id": "s001", "title": "再見二丁目", "artist": "楊千嬅", "year": 1997, "hot": 3, "tags": ["哲理", "放下", "孤獨"] },
-    { "id": "s002", "title": "喜帖街", "artist": "謝安琪", "year": 2008, "hot": 4, "tags": ["放下", "無常", "城市"] },
-    { "id": "s003", "title": "年度之歌", "artist": "謝安琪", "year": 2009, "hot": 3, "tags": ["哲理", "成長"] },
-    { "id": "s004", "title": "山林道", "artist": "謝安琪", "year": 2016, "hot": 2, "tags": ["堅持", "城市"] },
-    { "id": "s005", "title": "獨家村", "artist": "謝安琪", "year": 2014, "hot": 2, "tags": ["城市", "自我"] },
-    { "id": "s006", "title": "鍾無艷", "artist": "謝安琪", "year": 2008, "hot": 3, "tags": ["情感"] },
-    { "id": "s007", "title": "沙龍", "artist": "陳奕迅", "year": 2009, "hot": 3, "tags": ["哲理", "生活"] },
-    { "id": "s008", "title": "任我行", "artist": "陳奕迅", "year": 2013, "hot": 3, "tags": ["哲理", "自我"] },
-    { "id": "s009", "title": "苦瓜", "artist": "陳奕迅", "year": 2010, "hot": 3, "tags": ["哲理", "成長"] },
-    { "id": "s010", "title": "陀飛輪", "artist": "陳奕迅", "year": 2010, "hot": 4, "tags": ["哲理", "無常"] },
-    { "id": "s011", "title": "單車", "artist": "陳奕迅", "year": 2001, "hot": 4, "tags": ["親情"] },
-    { "id": "s012", "title": "木紋", "artist": "何韻詩", "year": 2006, "hot": 2, "tags": ["哲理", "無常"] },
-    { "id": "s013", "title": "鋼鐵是怎樣煉成的", "artist": "何韻詩", "year": 2013, "hot": 2, "tags": ["打氣", "成長"] },
-    { "id": "s014", "title": "化蝶", "artist": "何韻詩", "year": null, "hot": 2, "tags": ["哲理", "無常"] },
-    { "id": "s015", "title": "弱水三千", "artist": "麥浚龍", "year": 2011, "hot": 2, "tags": ["哲理", "無常"] },
-    { "id": "s016", "title": "耿耿於懷", "artist": "麥浚龍", "year": 2005, "hot": 3, "tags": ["情感", "放下"] },
-    { "id": "s017", "title": "彳亍", "artist": "麥浚龍", "year": 2018, "hot": 2, "tags": ["哲理", "孤獨"] },
-    { "id": "s018", "title": "在動物園散步才是正經事", "artist": "my little airport", "year": 2004, "hot": 2, "tags": ["生活", "哲理"] },
-    { "id": "s019", "title": "相信一切是最好的安排", "artist": "陳蕾", "year": 2021, "hot": 2, "tags": ["打氣", "哲理"] },
-    { "id": "s020", "title": "娑婆", "artist": "陳蕾", "year": 2020, "hot": 1, "tags": ["哲理", "無常"] },
-    { "id": "s021", "title": "The Best Is Yet To Come", "artist": "林一峰", "year": 2003, "hot": 2, "tags": ["打氣", "青春"] },
-    { "id": "s022", "title": "愚公", "artist": "Kolor", "year": 2013, "hot": 1, "tags": ["堅持", "打氣"] },
-    { "id": "s023", "title": "圍城", "artist": "Kolor", "year": null, "hot": 1, "tags": ["城市", "社會"] },
-    { "id": "s024", "title": "發現號", "artist": "RubberBand", "year": null, "hot": 2, "tags": ["打氣", "成長"] },
-    { "id": "s025", "title": "Simple Love Song", "artist": "RubberBand", "year": null, "hot": 2, "tags": ["生活", "情感"] },
-    { "id": "s026", "title": "目黑", "artist": "周國賢", "year": 2004, "hot": 2, "tags": ["情感", "城市"] },
-    { "id": "s027", "title": "你倫敦我紐約", "artist": "藍奕邦", "year": null, "hot": 1, "tags": ["情感", "孤獨"] },
-    { "id": "s028", "title": "在錯誤的宇宙尋找愛", "artist": "陳健安", "year": 2021, "hot": 2, "tags": ["哲理", "情感"] },
-    { "id": "s029", "title": "差一點我們會飛", "artist": "黃淑蔓", "year": 2015, "hot": 3, "tags": ["青春", "打氣"] },
-    { "id": "s030", "title": "人非草木", "artist": "吳雨霏", "year": 2012, "hot": 2, "tags": ["情感", "哲理"] },
-    { "id": "s031", "title": "就算世界無童話", "artist": "衛蘭", "year": 2010, "hot": 2, "tags": ["打氣", "哲理"] },
-    { "id": "s032", "title": "命硬", "artist": "側田", "year": 2006, "hot": 3, "tags": ["打氣", "堅持"] },
-    { "id": "s033", "title": "高山低谷", "artist": "林奕匡", "year": 2014, "hot": 3, "tags": ["打氣", "堅持"] },
-    { "id": "s034", "title": "假使世界原來不像你預期", "artist": "方皓玟", "year": 2018, "hot": 2, "tags": ["哲理", "打氣"] },
-    { "id": "s035", "title": "你是你本身的傳奇", "artist": "方皓玟", "year": 2016, "hot": 2, "tags": ["打氣", "自我"] },
-    { "id": "s036", "title": "青春常駐", "artist": "張敬軒", "year": 2014, "hot": 2, "tags": ["哲理", "青春"] },
-    { "id": "s037", "title": "櫻花樹下", "artist": "張敬軒", "year": 2008, "hot": 3, "tags": ["情感", "無常"] },
-    { "id": "s038", "title": "愛得太遲", "artist": "古巨基", "year": 2006, "hot": 4, "tags": ["親情", "珍惜"] },
-    { "id": "s039", "title": "時代", "artist": "古巨基", "year": 2010, "hot": 3, "tags": ["城市", "社會"] },
-    { "id": "s040", "title": "小城大事", "artist": "楊千嬅", "year": 2004, "hot": 4, "tags": ["情感", "無常"] },
-    { "id": "s041", "title": "曖昧", "artist": "王菲", "year": 1995, "hot": 3, "tags": ["情感"] },
-    { "id": "s042", "title": "明知故犯", "artist": "許美靜", "year": 1997, "hot": 3, "tags": ["情感"] },
-    { "id": "s043", "title": "插曲", "artist": "鄭秀文", "year": 1999, "hot": 2, "tags": ["哲理", "自我"] },
-    { "id": "s044", "title": "終身美麗", "artist": "鄭秀文", "year": 2001, "hot": 4, "tags": ["打氣", "自我"] },
-    { "id": "s045", "title": "夕陽之歌", "artist": "梅艷芳", "year": 1989, "hot": 3, "tags": ["無常", "哲理"] },
-    { "id": "s046", "title": "獅子山下", "artist": "羅文", "year": 1979, "hot": 4, "tags": ["打氣", "社會"] },
-    { "id": "s047", "title": "一生何求", "artist": "陳百強", "year": 1989, "hot": 3, "tags": ["哲理", "無常"] },
-    { "id": "s048", "title": "共同渡過", "artist": "張國榮", "year": 1987, "hot": 3, "tags": ["打氣", "親情"] },
-    { "id": "s049", "title": "我", "artist": "張國榮", "year": 2000, "hot": 3, "tags": ["自我"] },
-    { "id": "s050", "title": "石頭記", "artist": "達明一派", "year": 1987, "hot": 2, "tags": ["哲理", "無常"] },
-    { "id": "s051", "title": "十個救火的少年", "artist": "達明一派", "year": 1990, "hot": 2, "tags": ["社會", "哲理"] },
-    { "id": "s052", "title": "今天應該很高興", "artist": "達明一派", "year": 1989, "hot": 2, "tags": ["社會", "城市"] },
-    { "id": "s053", "title": "四季歌", "artist": "黃耀明", "year": 1995, "hot": 1, "tags": ["哲理", "生活"] },
-    { "id": "s054", "title": "再見理想", "artist": "Beyond", "year": 1986, "hot": 3, "tags": ["打氣", "堅持"] },
-    { "id": "s055", "title": "歲月無聲", "artist": "Beyond", "year": 1988, "hot": 3, "tags": ["哲理", "無常"] },
-    { "id": "s056", "title": "大地", "artist": "Beyond", "year": 1988, "hot": 3, "tags": ["哲理", "城市"] },
-    { "id": "s057", "title": "誰伴我闖蕩", "artist": "Beyond", "year": 1991, "hot": 3, "tags": ["打氣", "孤獨"] },
-    { "id": "s058", "title": "灰色軌跡", "artist": "Beyond", "year": 1990, "hot": 2, "tags": ["孤獨", "情感"] },
-    { "id": "s059", "title": "鐵塔凌雲", "artist": "許冠傑", "year": 1972, "hot": 2, "tags": ["哲理", "城市"] },
-    { "id": "s060", "title": "浪子心聲", "artist": "許冠傑", "year": 1976, "hot": 2, "tags": ["哲理", "無常"] },
-    { "id": "s061", "title": "天才白痴夢", "artist": "許冠傑", "year": 1976, "hot": 2, "tags": ["哲理", "生活"] },
-    { "id": "s062", "title": "半斤八兩", "artist": "許冠傑", "year": 1976, "hot": 2, "tags": ["生活", "社會"] },
-    { "id": "s063", "title": "難得有情人", "artist": "關淑怡", "year": 1992, "hot": 3, "tags": ["情感"] },
-    { "id": "s064", "title": "小玩意", "artist": "彭羚", "year": 1994, "hot": 2, "tags": ["生活", "情感"] },
-    { "id": "s065", "title": "垃圾", "artist": "盧巧音", "year": 1998, "hot": 2, "tags": ["情感", "孤獨"] },
-    { "id": "s066", "title": "哲學家", "artist": "盧巧音", "year": null, "hot": 1, "tags": ["哲理"] },
-    { "id": "s067", "title": "電燈膽", "artist": "鄧麗欣", "year": 2007, "hot": 3, "tags": ["情感"] },
-    { "id": "s068", "title": "紅綠燈", "artist": "鄭融", "year": 2006, "hot": 2, "tags": ["情感", "城市"] },
-    { "id": "s069", "title": "你瞞我瞞", "artist": "陳柏宇", "year": 2008, "hot": 3, "tags": ["情感"] },
-    { "id": "s070", "title": "畫意", "artist": "王菀之", "year": null, "hot": 1, "tags": ["哲理", "自我"] },
-    { "id": "s071", "title": "月亮說", "artist": "王菀之", "year": null, "hot": 1, "tags": ["哲理", "孤獨"] },
-    { "id": "s072", "title": "始終一天", "artist": "at17", "year": 2002, "hot": 1, "tags": ["打氣", "青春"] },
-    { "id": "s073", "title": "那誰", "artist": "蘇永康", "year": 2011, "hot": 2, "tags": ["哲理", "放下"] },
-    { "id": "s074", "title": "孤雛", "artist": "AGA", "year": 2016, "hot": 2, "tags": ["情感", "孤獨"] },
-    { "id": "s075", "title": "矛盾一生", "artist": "JW", "year": 2015, "hot": 2, "tags": ["情感"] },
-    { "id": "s076", "title": "長相廝守", "artist": "ToNick", "year": 2016, "hot": 3, "tags": ["情感"] },
-    { "id": "s077", "title": "哪裡只得我共你", "artist": "Dear Jane", "year": 2015, "hot": 4, "tags": ["情感"] },
-    { "id": "s078", "title": "野花", "artist": "林憶蓮", "year": 1991, "hot": 2, "tags": ["哲理", "自我"] },
-    { "id": "s079", "title": "光輝歲月", "artist": "Beyond", "year": 1990, "hot": 5, "tags": ["打氣", "社會"] },
-    { "id": "s080", "title": "海闊天空", "artist": "Beyond", "year": 1993, "hot": 5, "tags": ["打氣", "自我"] },
-    { "id": "s081", "title": "千千闕歌", "artist": "陳慧嫻", "year": 1989, "hot": 5, "tags": ["無常"] },
-    { "id": "s082", "title": "無賴", "artist": "鄭中基", "year": 2005, "hot": 5, "tags": ["情感"] },
-    { "id": "s083", "title": "紅日", "artist": "李克勤", "year": 1992, "hot": 5, "tags": ["打氣"] },
-    { "id": "s084", "title": "容易受傷的女人", "artist": "王菲", "year": 1992, "hot": 5, "tags": ["情感"] }
+    {
+      "id": "s001",
+      "title": "再見二丁目",
+      "artist": "楊千嬅",
+      "year": 1997,
+      "hot": 3,
+      "tags": [
+        "哲理",
+        "放下",
+        "孤獨"
+      ]
+    },
+    {
+      "id": "s002",
+      "title": "喜帖街",
+      "artist": "謝安琪",
+      "year": 2008,
+      "hot": 4,
+      "tags": [
+        "放下",
+        "無常",
+        "城市"
+      ]
+    },
+    {
+      "id": "s003",
+      "title": "年度之歌",
+      "artist": "謝安琪",
+      "year": 2009,
+      "hot": 3,
+      "tags": [
+        "哲理",
+        "成長"
+      ]
+    },
+    {
+      "id": "s004",
+      "title": "山林道",
+      "artist": "謝安琪",
+      "year": 2016,
+      "hot": 2,
+      "tags": [
+        "堅持",
+        "城市"
+      ]
+    },
+    {
+      "id": "s005",
+      "title": "獨家村",
+      "artist": "謝安琪",
+      "year": 2014,
+      "hot": 2,
+      "tags": [
+        "城市",
+        "自我"
+      ]
+    },
+    {
+      "id": "s006",
+      "title": "鍾無艷",
+      "artist": "謝安琪",
+      "year": 2008,
+      "hot": 3,
+      "tags": [
+        "情感"
+      ]
+    },
+    {
+      "id": "s007",
+      "title": "沙龍",
+      "artist": "陳奕迅",
+      "year": 2009,
+      "hot": 3,
+      "tags": [
+        "哲理",
+        "生活"
+      ]
+    },
+    {
+      "id": "s008",
+      "title": "任我行",
+      "artist": "陳奕迅",
+      "year": 2013,
+      "hot": 3,
+      "tags": [
+        "哲理",
+        "自我"
+      ]
+    },
+    {
+      "id": "s009",
+      "title": "苦瓜",
+      "artist": "陳奕迅",
+      "year": 2010,
+      "hot": 3,
+      "tags": [
+        "哲理",
+        "成長"
+      ]
+    },
+    {
+      "id": "s010",
+      "title": "陀飛輪",
+      "artist": "陳奕迅",
+      "year": 2010,
+      "hot": 4,
+      "tags": [
+        "哲理",
+        "無常"
+      ]
+    },
+    {
+      "id": "s011",
+      "title": "單車",
+      "artist": "陳奕迅",
+      "year": 2001,
+      "hot": 4,
+      "tags": [
+        "親情"
+      ]
+    },
+    {
+      "id": "s012",
+      "title": "木紋",
+      "artist": "何韻詩",
+      "year": 2006,
+      "hot": 2,
+      "tags": [
+        "哲理",
+        "無常"
+      ]
+    },
+    {
+      "id": "s013",
+      "title": "鋼鐵是怎樣煉成的",
+      "artist": "何韻詩",
+      "year": 2013,
+      "hot": 2,
+      "tags": [
+        "打氣",
+        "成長"
+      ]
+    },
+    {
+      "id": "s014",
+      "title": "化蝶",
+      "artist": "何韻詩",
+      "year": null,
+      "hot": 2,
+      "tags": [
+        "哲理",
+        "無常"
+      ]
+    },
+    {
+      "id": "s015",
+      "title": "弱水三千",
+      "artist": "麥浚龍",
+      "year": 2011,
+      "hot": 2,
+      "tags": [
+        "哲理",
+        "無常"
+      ]
+    },
+    {
+      "id": "s016",
+      "title": "耿耿於懷",
+      "artist": "麥浚龍",
+      "year": 2005,
+      "hot": 3,
+      "tags": [
+        "情感",
+        "放下"
+      ]
+    },
+    {
+      "id": "s017",
+      "title": "彳亍",
+      "artist": "麥浚龍",
+      "year": 2018,
+      "hot": 2,
+      "tags": [
+        "哲理",
+        "孤獨"
+      ]
+    },
+    {
+      "id": "s018",
+      "title": "在動物園散步才是正經事",
+      "artist": "my little airport",
+      "year": 2004,
+      "hot": 2,
+      "tags": [
+        "生活",
+        "哲理"
+      ]
+    },
+    {
+      "id": "s019",
+      "title": "相信一切是最好的安排",
+      "artist": "陳蕾",
+      "year": 2021,
+      "hot": 2,
+      "tags": [
+        "打氣",
+        "哲理"
+      ]
+    },
+    {
+      "id": "s020",
+      "title": "娑婆",
+      "artist": "陳蕾",
+      "year": 2020,
+      "hot": 1,
+      "tags": [
+        "哲理",
+        "無常"
+      ]
+    },
+    {
+      "id": "s021",
+      "title": "The Best Is Yet To Come",
+      "artist": "林一峰",
+      "year": 2003,
+      "hot": 2,
+      "tags": [
+        "打氣",
+        "青春"
+      ]
+    },
+    {
+      "id": "s022",
+      "title": "愚公",
+      "artist": "Kolor",
+      "year": 2013,
+      "hot": 1,
+      "tags": [
+        "堅持",
+        "打氣"
+      ]
+    },
+    {
+      "id": "s023",
+      "title": "圍城",
+      "artist": "Kolor",
+      "year": null,
+      "hot": 1,
+      "tags": [
+        "城市",
+        "社會"
+      ]
+    },
+    {
+      "id": "s024",
+      "title": "發現號",
+      "artist": "RubberBand",
+      "year": null,
+      "hot": 2,
+      "tags": [
+        "打氣",
+        "成長"
+      ]
+    },
+    {
+      "id": "s025",
+      "title": "Simple Love Song",
+      "artist": "RubberBand",
+      "year": null,
+      "hot": 2,
+      "tags": [
+        "生活",
+        "情感"
+      ]
+    },
+    {
+      "id": "s026",
+      "title": "目黑",
+      "artist": "周國賢",
+      "year": 2004,
+      "hot": 2,
+      "tags": [
+        "情感",
+        "城市"
+      ]
+    },
+    {
+      "id": "s027",
+      "title": "你倫敦我紐約",
+      "artist": "藍奕邦",
+      "year": null,
+      "hot": 1,
+      "tags": [
+        "情感",
+        "孤獨"
+      ]
+    },
+    {
+      "id": "s028",
+      "title": "在錯誤的宇宙尋找愛",
+      "artist": "陳健安",
+      "year": 2021,
+      "hot": 2,
+      "tags": [
+        "哲理",
+        "情感"
+      ]
+    },
+    {
+      "id": "s029",
+      "title": "差一點我們會飛",
+      "artist": "黃淑蔓",
+      "year": 2015,
+      "hot": 3,
+      "tags": [
+        "青春",
+        "打氣"
+      ]
+    },
+    {
+      "id": "s030",
+      "title": "人非草木",
+      "artist": "吳雨霏",
+      "year": 2012,
+      "hot": 2,
+      "tags": [
+        "情感",
+        "哲理"
+      ]
+    },
+    {
+      "id": "s031",
+      "title": "就算世界無童話",
+      "artist": "衛蘭",
+      "year": 2010,
+      "hot": 2,
+      "tags": [
+        "打氣",
+        "哲理"
+      ]
+    },
+    {
+      "id": "s032",
+      "title": "命硬",
+      "artist": "側田",
+      "year": 2006,
+      "hot": 3,
+      "tags": [
+        "打氣",
+        "堅持"
+      ]
+    },
+    {
+      "id": "s033",
+      "title": "高山低谷",
+      "artist": "林奕匡",
+      "year": 2014,
+      "hot": 3,
+      "tags": [
+        "打氣",
+        "堅持"
+      ]
+    },
+    {
+      "id": "s034",
+      "title": "假使世界原來不像你預期",
+      "artist": "方皓玟",
+      "year": 2018,
+      "hot": 2,
+      "tags": [
+        "哲理",
+        "打氣"
+      ]
+    },
+    {
+      "id": "s035",
+      "title": "你是你本身的傳奇",
+      "artist": "方皓玟",
+      "year": 2016,
+      "hot": 2,
+      "tags": [
+        "打氣",
+        "自我"
+      ]
+    },
+    {
+      "id": "s036",
+      "title": "青春常駐",
+      "artist": "張敬軒",
+      "year": 2014,
+      "hot": 2,
+      "tags": [
+        "哲理",
+        "青春"
+      ]
+    },
+    {
+      "id": "s037",
+      "title": "櫻花樹下",
+      "artist": "張敬軒",
+      "year": 2008,
+      "hot": 3,
+      "tags": [
+        "情感",
+        "無常"
+      ]
+    },
+    {
+      "id": "s038",
+      "title": "愛得太遲",
+      "artist": "古巨基",
+      "year": 2006,
+      "hot": 4,
+      "tags": [
+        "親情",
+        "珍惜"
+      ]
+    },
+    {
+      "id": "s039",
+      "title": "時代",
+      "artist": "古巨基",
+      "year": 2010,
+      "hot": 3,
+      "tags": [
+        "城市",
+        "社會"
+      ]
+    },
+    {
+      "id": "s040",
+      "title": "小城大事",
+      "artist": "楊千嬅",
+      "year": 2004,
+      "hot": 4,
+      "tags": [
+        "情感",
+        "無常"
+      ]
+    },
+    {
+      "id": "s041",
+      "title": "曖昧",
+      "artist": "王菲",
+      "year": 1995,
+      "hot": 3,
+      "tags": [
+        "情感"
+      ]
+    },
+    {
+      "id": "s042",
+      "title": "明知故犯",
+      "artist": "許美靜",
+      "year": 1997,
+      "hot": 3,
+      "tags": [
+        "情感"
+      ]
+    },
+    {
+      "id": "s043",
+      "title": "插曲",
+      "artist": "鄭秀文",
+      "year": 1999,
+      "hot": 2,
+      "tags": [
+        "哲理",
+        "自我"
+      ]
+    },
+    {
+      "id": "s044",
+      "title": "終身美麗",
+      "artist": "鄭秀文",
+      "year": 2001,
+      "hot": 4,
+      "tags": [
+        "打氣",
+        "自我"
+      ]
+    },
+    {
+      "id": "s045",
+      "title": "夕陽之歌",
+      "artist": "梅艷芳",
+      "year": 1989,
+      "hot": 3,
+      "tags": [
+        "無常",
+        "哲理"
+      ]
+    },
+    {
+      "id": "s046",
+      "title": "獅子山下",
+      "artist": "羅文",
+      "year": 1979,
+      "hot": 4,
+      "tags": [
+        "打氣",
+        "社會"
+      ]
+    },
+    {
+      "id": "s047",
+      "title": "一生何求",
+      "artist": "陳百強",
+      "year": 1989,
+      "hot": 3,
+      "tags": [
+        "哲理",
+        "無常"
+      ]
+    },
+    {
+      "id": "s048",
+      "title": "共同渡過",
+      "artist": "張國榮",
+      "year": 1987,
+      "hot": 3,
+      "tags": [
+        "打氣",
+        "親情"
+      ]
+    },
+    {
+      "id": "s049",
+      "title": "我",
+      "artist": "張國榮",
+      "year": 2000,
+      "hot": 3,
+      "tags": [
+        "自我"
+      ]
+    },
+    {
+      "id": "s050",
+      "title": "石頭記",
+      "artist": "達明一派",
+      "year": 1987,
+      "hot": 2,
+      "tags": [
+        "哲理",
+        "無常"
+      ]
+    },
+    {
+      "id": "s051",
+      "title": "十個救火的少年",
+      "artist": "達明一派",
+      "year": 1990,
+      "hot": 2,
+      "tags": [
+        "社會",
+        "哲理"
+      ]
+    },
+    {
+      "id": "s052",
+      "title": "今天應該很高興",
+      "artist": "達明一派",
+      "year": 1989,
+      "hot": 2,
+      "tags": [
+        "社會",
+        "城市"
+      ]
+    },
+    {
+      "id": "s053",
+      "title": "四季歌",
+      "artist": "黃耀明",
+      "year": 1995,
+      "hot": 1,
+      "tags": [
+        "哲理",
+        "生活"
+      ]
+    },
+    {
+      "id": "s054",
+      "title": "再見理想",
+      "artist": "Beyond",
+      "year": 1986,
+      "hot": 3,
+      "tags": [
+        "打氣",
+        "堅持"
+      ]
+    },
+    {
+      "id": "s055",
+      "title": "歲月無聲",
+      "artist": "Beyond",
+      "year": 1988,
+      "hot": 3,
+      "tags": [
+        "哲理",
+        "無常"
+      ]
+    },
+    {
+      "id": "s056",
+      "title": "大地",
+      "artist": "Beyond",
+      "year": 1988,
+      "hot": 3,
+      "tags": [
+        "哲理",
+        "城市"
+      ]
+    },
+    {
+      "id": "s057",
+      "title": "誰伴我闖蕩",
+      "artist": "Beyond",
+      "year": 1991,
+      "hot": 3,
+      "tags": [
+        "打氣",
+        "孤獨"
+      ]
+    },
+    {
+      "id": "s058",
+      "title": "灰色軌跡",
+      "artist": "Beyond",
+      "year": 1990,
+      "hot": 2,
+      "tags": [
+        "孤獨",
+        "情感"
+      ]
+    },
+    {
+      "id": "s059",
+      "title": "鐵塔凌雲",
+      "artist": "許冠傑",
+      "year": 1972,
+      "hot": 2,
+      "tags": [
+        "哲理",
+        "城市"
+      ]
+    },
+    {
+      "id": "s060",
+      "title": "浪子心聲",
+      "artist": "許冠傑",
+      "year": 1976,
+      "hot": 2,
+      "tags": [
+        "哲理",
+        "無常"
+      ]
+    },
+    {
+      "id": "s061",
+      "title": "天才白痴夢",
+      "artist": "許冠傑",
+      "year": 1976,
+      "hot": 2,
+      "tags": [
+        "哲理",
+        "生活"
+      ]
+    },
+    {
+      "id": "s062",
+      "title": "半斤八兩",
+      "artist": "許冠傑",
+      "year": 1976,
+      "hot": 2,
+      "tags": [
+        "生活",
+        "社會"
+      ]
+    },
+    {
+      "id": "s063",
+      "title": "難得有情人",
+      "artist": "關淑怡",
+      "year": 1992,
+      "hot": 3,
+      "tags": [
+        "情感"
+      ]
+    },
+    {
+      "id": "s064",
+      "title": "小玩意",
+      "artist": "彭羚",
+      "year": 1994,
+      "hot": 2,
+      "tags": [
+        "生活",
+        "情感"
+      ]
+    },
+    {
+      "id": "s065",
+      "title": "垃圾",
+      "artist": "盧巧音",
+      "year": 1998,
+      "hot": 2,
+      "tags": [
+        "情感",
+        "孤獨"
+      ]
+    },
+    {
+      "id": "s066",
+      "title": "哲學家",
+      "artist": "盧巧音",
+      "year": null,
+      "hot": 1,
+      "tags": [
+        "哲理"
+      ]
+    },
+    {
+      "id": "s067",
+      "title": "電燈膽",
+      "artist": "鄧麗欣",
+      "year": 2007,
+      "hot": 3,
+      "tags": [
+        "情感"
+      ]
+    },
+    {
+      "id": "s068",
+      "title": "紅綠燈",
+      "artist": "鄭融",
+      "year": 2006,
+      "hot": 2,
+      "tags": [
+        "情感",
+        "城市"
+      ]
+    },
+    {
+      "id": "s069",
+      "title": "你瞞我瞞",
+      "artist": "陳柏宇",
+      "year": 2008,
+      "hot": 3,
+      "tags": [
+        "情感"
+      ]
+    },
+    {
+      "id": "s070",
+      "title": "畫意",
+      "artist": "王菀之",
+      "year": null,
+      "hot": 1,
+      "tags": [
+        "哲理",
+        "自我"
+      ]
+    },
+    {
+      "id": "s071",
+      "title": "月亮說",
+      "artist": "王菀之",
+      "year": null,
+      "hot": 1,
+      "tags": [
+        "哲理",
+        "孤獨"
+      ]
+    },
+    {
+      "id": "s072",
+      "title": "始終一天",
+      "artist": "at17",
+      "year": 2002,
+      "hot": 1,
+      "tags": [
+        "打氣",
+        "青春"
+      ]
+    },
+    {
+      "id": "s073",
+      "title": "那誰",
+      "artist": "蘇永康",
+      "year": 2011,
+      "hot": 2,
+      "tags": [
+        "哲理",
+        "放下"
+      ]
+    },
+    {
+      "id": "s074",
+      "title": "孤雛",
+      "artist": "AGA",
+      "year": 2016,
+      "hot": 2,
+      "tags": [
+        "情感",
+        "孤獨"
+      ]
+    },
+    {
+      "id": "s075",
+      "title": "矛盾一生",
+      "artist": "JW",
+      "year": 2015,
+      "hot": 2,
+      "tags": [
+        "情感"
+      ]
+    },
+    {
+      "id": "s076",
+      "title": "長相廝守",
+      "artist": "ToNick",
+      "year": 2016,
+      "hot": 3,
+      "tags": [
+        "情感"
+      ]
+    },
+    {
+      "id": "s077",
+      "title": "哪裡只得我共你",
+      "artist": "Dear Jane",
+      "year": 2015,
+      "hot": 4,
+      "tags": [
+        "情感"
+      ]
+    },
+    {
+      "id": "s078",
+      "title": "野花",
+      "artist": "林憶蓮",
+      "year": 1991,
+      "hot": 2,
+      "tags": [
+        "哲理",
+        "自我"
+      ]
+    },
+    {
+      "id": "s079",
+      "title": "光輝歲月",
+      "artist": "Beyond",
+      "year": 1990,
+      "hot": 5,
+      "tags": [
+        "打氣",
+        "社會"
+      ]
+    },
+    {
+      "id": "s080",
+      "title": "海闊天空",
+      "artist": "Beyond",
+      "year": 1993,
+      "hot": 5,
+      "tags": [
+        "打氣",
+        "自我"
+      ]
+    },
+    {
+      "id": "s081",
+      "title": "千千闕歌",
+      "artist": "陳慧嫻",
+      "year": 1989,
+      "hot": 5,
+      "tags": [
+        "無常"
+      ]
+    },
+    {
+      "id": "s082",
+      "title": "無賴",
+      "artist": "鄭中基",
+      "year": 2005,
+      "hot": 5,
+      "tags": [
+        "情感"
+      ]
+    },
+    {
+      "id": "s083",
+      "title": "紅日",
+      "artist": "李克勤",
+      "year": 1992,
+      "hot": 5,
+      "tags": [
+        "打氣"
+      ]
+    },
+    {
+      "id": "s084",
+      "title": "容易受傷的女人",
+      "artist": "王菲",
+      "year": 1992,
+      "hot": 5,
+      "tags": [
+        "情感"
+      ]
+    },
+    {
+      "id": "s085",
+      "title": "葡萄成熟時",
+      "artist": "陳奕迅",
+      "year": 2005,
+      "hot": 3,
+      "tags": [
+        "哲理",
+        "成長"
+      ]
+    },
+    {
+      "id": "s086",
+      "title": "冷雨夜",
+      "artist": "Beyond",
+      "year": 1986,
+      "hot": 3,
+      "tags": [
+        "情感",
+        "孤獨"
+      ]
+    },
+    {
+      "id": "s087",
+      "title": "雨夜的浪漫",
+      "artist": "譚詠麟",
+      "year": 1984,
+      "hot": 3,
+      "tags": [
+        "情感"
+      ]
+    },
+    {
+      "id": "s088",
+      "title": "月半小夜曲",
+      "artist": "李克勤",
+      "year": 1987,
+      "hot": 3,
+      "tags": [
+        "情感",
+        "孤獨"
+      ]
+    },
+    {
+      "id": "s089",
+      "title": "夏日傾情",
+      "artist": "黎明",
+      "year": 1993,
+      "hot": 3,
+      "tags": [
+        "生活",
+        "青春"
+      ]
+    },
+    {
+      "id": "s090",
+      "title": "下雨天",
+      "artist": "林憶蓮",
+      "year": 1988,
+      "hot": 2,
+      "tags": [
+        "情感"
+      ]
+    },
+    {
+      "id": "s091",
+      "title": "Lonely Christmas",
+      "artist": "陳奕迅",
+      "year": 2002,
+      "hot": 3,
+      "tags": [
+        "情感",
+        "孤獨"
+      ]
+    }
   ]
 }

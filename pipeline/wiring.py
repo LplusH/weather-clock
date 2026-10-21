@@ -77,7 +77,7 @@ def warn_icon(d, x, y, size=14):
 
 
 def panel(out, title, board_pins, module_pins, module_label,
-          note_head, note_body, footer):
+          note_head, note_body, footer, board_name=("Arduino", "MEGA 2560")):
     f_title = f(23, True)
     f_pin = f(15, True)
     f_sub = f(12)
@@ -105,8 +105,8 @@ def panel(out, title, board_pins, module_pins, module_label,
     bx0, by0, bx1 = 40, top, 300
     by1 = by0 + board_h
     d.rounded_rectangle([bx0, by0, bx1, by1], radius=10, fill=BOARD, outline=(20, 60, 42), width=2)
-    d.text((bx0 + 18, by0 + 16), "Arduino", font=f(17, True), fill=(206, 232, 216))
-    d.text((bx0 + 18, by0 + 38), "MEGA 2560", font=f(17, True), fill=(206, 232, 216))
+    d.text((bx0 + 18, by0 + 16), board_name[0], font=f(17, True), fill=(206, 232, 216))
+    d.text((bx0 + 18, by0 + 38), board_name[1], font=f(17, True), fill=(206, 232, 216))
 
     # ---- 模块 ----
     mx0 = 470
@@ -198,6 +198,22 @@ def main():
          "想干净就买 4 路电平转换模块（¥3），5V 侧接 Mega，3.3V 侧接屏。"],
     )
     print("已输出", p2)
+
+    p3 = panel(
+        site / "wiring-esp32s3.png",
+        "接法三：ESP32-S3 与 0.96 寸 128x64 OLED（I2C，4 根线）",
+        [("5V", ""), ("GND", ""), ("9", "SCL"), ("8", "SDA")],
+        [("VDD", ""), ("GND", ""), ("SCK", ""), ("SDA", "")],
+        "OLED 128x64",
+        "对应的代码",
+        ["#define PIN_SDA 8",
+         "#define PIN_SCL 9",
+         "ESP32-S3 默认 I2C 就是 8/9"],
+        ["ESP32 是 3.3V 逻辑，信号线一根电阻都不用加（这是它比 Mega 省事的地方）；",
+         "VDD 建议接 5V：模块上的 LDO 需要压差，喂 3.3V 对比度会变淡。"],
+        board_name=("ESP32-S3", "N16R8"),
+    )
+    print("已输出", p3)
 
 
 if __name__ == "__main__":
