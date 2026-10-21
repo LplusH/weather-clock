@@ -1,21 +1,24 @@
 {
   "date": "2026-10-21",
   "weekday": "星期三",
-  "lyric": "如能忘掉渴望 歲月長 衣裳薄 無論於什麼角落 不假設你或會在旁 我也可暢遊異國 放心吃喝",
+  "lyric": "回音輕傳 此時此處此模樣",
   "song": {
-    "title": "再见二丁目",
-    "artist": "杨千嬅",
-    "year": null,
-    "hot": 1,
-    "tags": []
+    "title": "鐵塔凌雲",
+    "artist": "許冠傑",
+    "year": 1972,
+    "hot": 2,
+    "tags": [
+      "哲理",
+      "城市"
+    ]
   },
   "meta": {
-    "generated_at": "2026-10-21T22:20:37+08:00",
+    "generated_at": "2026-10-21T14:21:28+00:00",
     "weather": "cloudy",
     "special": null,
-    "method": "heuristic",
+    "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 31,
-    "line_no": 28
+    "candidates": 18,
+    "line_no": 15
   }
 }
