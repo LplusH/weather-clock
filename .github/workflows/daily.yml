@@ -30,6 +30,7 @@ jobs:
           WC_AI_BASE: ${{ secrets.WC_AI_BASE }}     # 例：https://api.deepseek.com/v1
           WC_AI_KEY: ${{ secrets.WC_AI_KEY }}
           WC_AI_MODEL: ${{ secrets.WC_AI_MODEL }}   # 例：deepseek-chat
+          WC_SOURCE: ai            # ai = 让模型每天自己找歌；没有 key 会自动回退曲库
         run: python pipeline/daily.py --render
 
       - name: 提交結果（Pages 會自動發佈 site/）
