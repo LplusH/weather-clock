@@ -1,0 +1,6 @@
+date=2026-10-21
+weekday=星期三
+lyric1=好景不會每日常在
+lyric2=天梯不可只往上爬
+title=喜帖街
+artist=謝安琪

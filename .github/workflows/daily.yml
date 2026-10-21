@@ -1,0 +1,41 @@
+name: 每日一句歌詞
+
+on:
+  schedule:
+    # UTC 22:10 = 香港/北京時間 06:10，早上醒來就是新的句子
+    - cron: "10 22 * * *"
+  workflow_dispatch: {}         # 也可以在 Actions 頁面手動觸發
+
+permissions:
+  contents: write               # 需要提交 today.json / card.jpg 回倉庫
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 渲染中文必須有 CJK 字體，runner 預設沒有
+      - name: 安裝中文字體
+        run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
+
+      - run: pip install pillow
+
+      - name: 選歌 → 抓詞 → AI 選句 → 畫卡片
+        env:
+          WC_AI_BASE: ${{ secrets.WC_AI_BASE }}     # 例：https://api.deepseek.com/v1
+          WC_AI_KEY: ${{ secrets.WC_AI_KEY }}
+          WC_AI_MODEL: ${{ secrets.WC_AI_MODEL }}   # 例：deepseek-chat
+        run: python pipeline/daily.py --render
+
+      - name: 提交結果（Pages 會自動發佈 site/）
+        run: |
+          git config user.name  "lyric-bot"
+          git config user.email "lyric-bot@users.noreply.github.com"
+          git add site state cache
+          git commit -m "daily: $(date -u +%F)" || echo "今天沒有變化"
+          git push

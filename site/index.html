@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7f3ea">
+<title>粵語天氣時鐘</title>
+<style>
+  :root{
+    --paper:#f7f3ea; --ink:#1f1b16; --dim:#807668; --line:#d6cdbd;
+    --accent:#a8442a; --card:#fffdf8;
+  }
+  html[data-theme="night"]{
+    --paper:#14120f; --ink:#e8e0d2; --dim:#8a8175; --line:#2e2a24;
+    --accent:#c9765a; --card:#1b1815;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{height:100%;margin:0}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:"PingFang HK","PingFang SC","Microsoft JhengHei","Microsoft YaHei",
+                "Noto Sans CJK TC",system-ui,-apple-system,"Helvetica Neue",sans-serif;
+    display:flex; flex-direction:column;
+    padding:clamp(10px,2.4vmin,22px);
+    transition:background .8s ease,color .8s ease;
+    overflow:hidden;
+  }
+  /* 讓整體在豎屏/橫屏都不溢出 */
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;
+    border:1px solid var(--line); border-radius:12px; margin:6px}
+
+  header{display:flex;justify-content:space-between;align-items:baseline;
+    font-size:clamp(11px,2.1vmin,15px); color:var(--dim); letter-spacing:.04em}
+
+  .clock{
+    font-size:clamp(58px,17vmin,132px); font-weight:700; line-height:.94;
+    letter-spacing:-.02em; font-variant-numeric:tabular-nums;
+    margin:clamp(4px,1.2vmin,10px) 0 0 -.04em;
+  }
+  .clock .sec{font-size:.26em; color:var(--dim); margin-left:.22em; font-weight:500}
+
+  .wx{display:flex; align-items:center; gap:clamp(8px,1.8vmin,16px);
+      margin-top:clamp(2px,.8vmin,8px)}
+  .wx svg{width:clamp(30px,7vmin,52px); height:auto; flex:none}
+  .wx .temp{font-size:clamp(24px,5.6vmin,44px); font-weight:700; line-height:1}
+  .wx .desc{font-size:clamp(12px,2.4vmin,17px); color:var(--dim); line-height:1.5}
+  .wx .desc b{color:var(--ink); font-weight:600}
+
+  .rule{height:1px;background:var(--line);margin:clamp(8px,2vmin,16px) 0;
+        flex:none; opacity:.9}
+
+  main{flex:1; display:flex; align-items:center; min-height:0}
+  .lyric{display:flex; gap:clamp(10px,2.2vmin,18px); align-items:stretch; width:100%}
+  .lyric .bar{width:clamp(3px,.7vmin,5px); border-radius:3px; background:var(--accent); flex:none}
+  .lyric .body{min-width:0}
+  .lyric .text{
+    font-size:clamp(21px,5.2vmin,40px); font-weight:700; line-height:1.55;
+    letter-spacing:.01em; margin:0;
+    display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  .lyric .credit{margin-top:clamp(8px,1.8vmin,16px);
+    font-size:clamp(11px,2.2vmin,16px); color:var(--dim); letter-spacing:.03em}
+
+  footer{display:flex;justify-content:space-between;align-items:center;
+    font-size:clamp(10px,1.9vmin,13px); color:var(--dim); opacity:.85; padding-top:6px}
+  .dot{display:inline-block;width:6px;height:6px;border-radius:50%;
+    background:var(--accent);margin-right:6px;vertical-align:middle;opacity:.7}
+  /* 橫屏矮屏時壓縮 */
+  @media (max-height:360px){
+    .clock{font-size:clamp(50px,15vmin,86px)}
+    .lyric .text{font-size:clamp(19px,4.6vmin,28px); -webkit-line-clamp:3}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span id="date">—</span>
+  <span id="weekday"></span>
+</header>
+
+<div class="clock" id="clock">--:--</div>
+
+<div class="wx">
+  <span id="icon"></span>
+  <div>
+    <div class="temp" id="temp">—</div>
+    <div class="desc" id="wdesc"></div>
+  </div>
+</div>
+
+<div class="rule"></div>
+
+<main>
+  <div class="lyric">
+    <div class="bar"></div>
+    <div class="body">
+      <p class="text" id="lyric">正在載入今日歌詞…</p>
+      <div class="credit" id="credit"></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span><i class="dot"></i>每日一句 · 粵語歌</span>
+  <span id="status">—</span>
+</footer>
+
+<script>
+/* ------------------------------------------------------------------
+   配置：改這裡就行
+   ------------------------------------------------------------------ */
+const CONFIG = {
+  lat: 39.9042, lon: 116.4074,    // 北京
+  city: "北京",
+  autoLocate: false,              // true = 按 IP 自动定位（挂 VPN 时可能认错城市）
+  tz: "Asia/Shanghai",
+  nightFrom: 22, nightTo: 7,      // 這個時段自動切暗色
+  weatherRefreshMin: 15
+};
+
+/* 找不到 today.json（例如直接雙擊開檔）時的示範資料 */
+const DEMO = {
+  date: "2025-06-01", weekday: "星期日",
+  lyric: "好景不會每日常在 天梯不可只往上爬",
+  song: { title: "喜帖街", artist: "謝安琪", year: 2008 }
+};
+
+/* Open-Meteo WMO code → 中文 + 圖示種類 */
+const WMO = {
+  0:["晴","sun"], 1:["大致晴朗","sun"], 2:["多雲","cloud"], 3:["陰","cloud"],
+  45:["霧","cloud"], 48:["霧","cloud"],
+  51:["毛毛雨","rain"],53:["毛毛雨","rain"],55:["毛毛雨","rain"],
+  61:["小雨","rain"],63:["中雨","rain"],65:["大雨","rain"],
+  66:["凍雨","rain"],67:["凍雨","rain"],
+  71:["小雪","snow"],73:["中雪","snow"],75:["大雪","snow"],77:["雪","snow"],
+  80:["陣雨","rain"],81:["陣雨","rain"],82:["大雨","rain"],
+  85:["陣雪","snow"],86:["陣雪","snow"],
+  95:["雷雨","rain"],96:["雷雨","rain"],99:["雷雨","rain"]
+};
+
+const ICONS = {
+  sun:`<svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="12" fill="#dda23a"/>
+    <g stroke="#dda23a" stroke-width="3.4" stroke-linecap="round">
+    <path d="M32 6v7M32 51v7M6 32h7M51 32h7M13.7 13.7l5 5M45.3 45.3l5 5M50.3 13.7l-5 5M18.7 45.3l-5 5"/></g></svg>`,
+  cloud:`<svg viewBox="0 0 64 64" fill="none"><circle cx="24" cy="22" r="9" fill="#dda23a" opacity=".9"/>
+    <path d="M20 46a10 10 0 0 1 .6-19.9A13 13 0 0 1 45 29a8.5 8.5 0 0 1 .5 17H20z" fill="#a9adb4"/></svg>`,
+  rain:`<svg viewBox="0 0 64 64" fill="none">
+    <path d="M18 36a9 9 0 0 1 .5-17.9A12 12 0 0 1 41 20.5A8 8 0 0 1 41.5 36H18z" fill="#9aa0a8"/>
+    <g stroke="#5a82aa" stroke-width="3.2" stroke-linecap="round">
+    <path d="M22 43l-3 9M33 43l-3 9M44 43l-3 9"/></g></svg>`,
+  snow:`<svg viewBox="0 0 64 64" fill="none">
+    <path d="M18 36a9 9 0 0 1 .5-17.9A12 12 0 0 1 41 20.5A8 8 0 0 1 41.5 36H18z" fill="#9aa0a8"/>
+    <g stroke="#7fb0d6" stroke-width="2.8" stroke-linecap="round">
+    <path d="M23 45v8M19.5 49h7M36 45v8M32.5 49h7"/></g></svg>`
+};
+
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2, "0");
+
+/* ---------- 時鐘 ---------- */
+function tick(){
+  const now = new Date();
+  $("clock").innerHTML = `${pad(now.getHours())}:${pad(now.getMinutes())}` +
+                         `<span class="sec">${pad(now.getSeconds())}</span>`;
+  applyTheme(now);
+}
+
+/* ---------- 日夜主題 ---------- */
+let theme = "";
+function applyTheme(now){
+  const h = now.getHours();
+  const n = (CONFIG.nightFrom <= CONFIG.nightTo)
+    ? (h >= CONFIG.nightFrom || h < CONFIG.nightTo)
+    : (h >= CONFIG.nightFrom && h < CONFIG.nightTo);
+  const t = n ? "night" : "day";
+  if (t !== theme){ theme = t; document.documentElement.dataset.theme = t; }
+}
+
+/* ---------- 日期 ---------- */
+const WK = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
+let CITY = CONFIG.city;          // 定位后会覆盖
+function drawDate(d = new Date()){
+  $("date").textContent =
+    `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}` + (CITY ? ` · ${CITY}` : "");
+  $("weekday").textContent = WK[d.getDay()];
+}
+
+/* ---------- 定位 ---------- */
+let LOC = { lat: CONFIG.lat, lon: CONFIG.lon };
+
+function saveLoc(o){
+  try { localStorage.setItem("wc_loc", JSON.stringify(o)); } catch(e){}
+  CITY = o.city || "";
+  drawDate();
+  return o;
+}
+
+async function locate(){
+  // 1) 上次定位结果
+  try {
+    const saved = JSON.parse(localStorage.getItem("wc_loc") || "null");
+    if (saved && saved.lat) { LOC = saved; CITY = saved.city || ""; return LOC; }
+  } catch(e){}
+
+  // 2) URL 参数：?lat=39.90&lon=116.41&city=北京
+  const q = new URLSearchParams(location.search);
+  if (q.has("lat") && q.has("lon")) {
+    return saveLoc({ lat: +q.get("lat"), lon: +q.get("lon"), city: q.get("city") || CONFIG.city });
+  }
+  // 没开自动定位就直接用配置（北京）
+  if (!CONFIG.autoLocate) return LOC;
+
+  // 3) 按 IP 自动定位（三个免费接口，都失败就退回配置里的坐标）
+  const apis = [
+    { u: "https://ipwho.is/",      lat: "latitude", lon: "longitude", city: "city" },
+    { u: "https://ipapi.co/json/", lat: "latitude", lon: "longitude", city: "city" },
+    { u: "https://ipinfo.io/json", lat: "loc",      lon: null,        city: "city" }
+  ];
+  for (const a of apis) {
+    try {
+      const r = await fetch(a.u, { cache: "no-store" });
+      if (!r.ok) continue;
+      const j = await r.json();
+      if (a.lon) {
+        if (j[a.lat] && j[a.lon]) return saveLoc({ lat: +j[a.lat], lon: +j[a.lon], city: j[a.city] || "" });
+      } else if (typeof j.loc === "string") {
+        const p = j.loc.split(",").map(Number);
+        if (p[0] && p[1]) return saveLoc({ lat: p[0], lon: p[1], city: j.city || "" });
+      }
+    } catch(e){}
+  }
+  return LOC;
+}
+
+/* ---------- 天氣 ---------- */
+const USE_DEMO_WX = new URLSearchParams(location.search).has("demo");
+
+function renderWeather(temp, desc, kind, sub, note){
+  $("icon").innerHTML = ICONS[kind] || ICONS.cloud;
+  $("temp").textContent = `${Math.round(temp)}°`;
+  $("wdesc").innerHTML = `<b>${desc}</b> · ${sub}`;
+  $("status").textContent = note;
+}
+
+async function weather(){
+  if (USE_DEMO_WX){                       // ?demo=1：離線展示用
+    renderWeather(26, "多雲", "cloud", "濕度 78%<br>體感 28° · 23–30° · 雨 20%", "示範資料");
+    return;
+  }
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${LOC.lat}&longitude=${LOC.lon}`
+    + `&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code`
+    + `&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max`
+    + `&timezone=${encodeURIComponent(CONFIG.tz)}&forecast_days=1`;
+  try{
+    const r = await fetch(url, {cache:"no-store"});
+    if(!r.ok) throw new Error("HTTP " + r.status);
+    const j = await r.json();
+    const c = j.current, day = j.daily;
+    const [desc, kind] = WMO[c.weather_code] || ["—","cloud"];
+    renderWeather(
+      c.temperature_2m, desc, kind,
+      `濕度 ${c.relative_humidity_2m}%<br>體感 ${Math.round(c.apparent_temperature)}° · `
+      + `${Math.round(day.temperature_2m_min[0])}–${Math.round(day.temperature_2m_max[0])}°`
+      + ` · 雨 ${day.precipitation_probability_max[0] ?? "—"}%`,
+      `天氣更新 ${new Date().toLocaleTimeString("zh-HK",{hour12:false,hour:"2-digit",minute:"2-digit"})}`
+    );
+  }catch(e){
+    renderWeather(NaN, "抓取失敗", "cloud", e.message, "離線");
+  }
+}
+
+/* ---------- 今日歌詞 ---------- */
+async function lyric(){
+  let t = DEMO;
+  try{
+    const r = await fetch("today.json", {cache:"no-store"});
+    if(r.ok) t = await r.json();
+  }catch(e){ /* file:// 或未部署時用示範資料 */ }
+
+  $("lyric").textContent = t.lyric || "—";
+  const s = t.song || {};
+  $("credit").textContent =
+    `《${s.title || ""}》　${s.artist || ""}${s.year ? " · " + s.year : ""}`;
+}
+
+/* ---------- 啟動 ---------- */
+drawDate(); tick(); setInterval(tick, 1000);
+(async () => { await locate(); weather();
+  setInterval(weather, CONFIG.weatherRefreshMin*60*1000); })();
+lyric();
+</script>
+</body>
+</html>

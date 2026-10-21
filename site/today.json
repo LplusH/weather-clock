@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-21",
+  "weekday": "星期三",
+  "lyric": "好景不會每日常在 天梯不可只往上爬",
+  "song": {
+    "title": "喜帖街",
+    "artist": "謝安琪",
+    "year": 2008,
+    "hot": 4,
+    "tags": [
+      "放下",
+      "無常",
+      "城市"
+    ]
+  },
+  "meta": {
+    "generated_at": "2026-10-21T13:14:10+08:00",
+    "weather": "sunny",
+    "method": "heuristic",
+    "lyrics_source": "cache",
+    "candidates": 57,
+    "line_no": 20
+  }
+}
