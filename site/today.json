@@ -1,21 +1,21 @@
 {
   "date": "2026-10-22",
   "weekday": "星期四",
-  "lyric": "不要緊 山野都有霧燈 頑童亦學乖不敢太勇敢 世上有多少個繽紛樂園 任你行",
+  "lyric": "沒有結局也可即興",
   "song": {
-    "title": "任我行",
+    "title": "我的快乐时代",
     "artist": "陈奕迅",
     "year": null,
     "hot": 1,
     "tags": []
   },
   "meta": {
-    "generated_at": "2026-10-22T00:40:15+00:00",
+    "generated_at": "2026-10-22T05:08:41+00:00",
     "weather": "cloudy",
     "special": null,
     "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 67,
-    "line_no": 15
+    "candidates": 44,
+    "line_no": 7
   }
 }
