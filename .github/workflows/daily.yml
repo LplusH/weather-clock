@@ -7,11 +7,20 @@ on:
   workflow_dispatch: {}         # 也可以在 Actions 頁面手動觸發
 
 permissions:
-  contents: write               # 需要提交 today.json / card.jpg 回倉庫
+  contents: write               # 提交 today.txt / lyric.bin 回倉庫
+  pages: write                  # 部署到 Pages
+  id-token: write
+
+concurrency:
+  group: daily
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -25,18 +34,34 @@ jobs:
 
       - run: pip install pillow
 
-      - name: 選歌 → 抓詞 → AI 選句 → 畫卡片
+      - name: 選歌 → 抓詞 → AI 選句 → 渲染位圖
         env:
-          WC_AI_BASE: ${{ secrets.WC_AI_BASE }}     # 例：https://api.deepseek.com/v1
+          WC_AI_BASE: ${{ secrets.WC_AI_BASE }}
           WC_AI_KEY: ${{ secrets.WC_AI_KEY }}
-          WC_AI_MODEL: ${{ secrets.WC_AI_MODEL }}   # 例：deepseek-chat
-          WC_SOURCE: ai            # ai = 让模型每天自己找歌；没有 key 会自动回退曲库
-        run: python pipeline/daily.py --render
+          WC_AI_MODEL: ${{ secrets.WC_AI_MODEL }}
+          WC_SOURCE: ai
+        run: |
+          python pipeline/daily.py --render
+          python pipeline/render_strip.py
 
-      - name: 提交結果（Pages 會自動發佈 site/）
+      - name: 提交結果
         run: |
           git config user.name  "lyric-bot"
           git config user.email "lyric-bot@users.noreply.github.com"
           git add site state cache
           git commit -m "daily: $(date -u +%F)" || echo "今天沒有變化"
           git push
+
+      # ---- 關鍵：同一個 job 裡直接部署 ----
+      # 用 GITHUB_TOKEN 推送的提交不會觸發其他 workflow（GitHub 反遞歸規則），
+      # 所以不能依賴 pages.yml 去響應 push，必須在這裡部署。
+      - uses: actions/configure-pages@v5
+
+      - name: 上傳 site 目錄
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
