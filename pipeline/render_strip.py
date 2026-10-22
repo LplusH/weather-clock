@@ -27,11 +27,27 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).resolve().parent.parent
 W = 128
 LINE_H = 14
-FONT = r"C:\Windows\Fonts\msyh.ttc"
+# 跨平台字体：本地是微软雅黑，GitHub runner 上是 Noto CJK
+FONT_CANDIDATES = [
+    r"C:\Windows\Fonts\msyh.ttc",
+    "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+    "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
+    "/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc",
+    "/System/Library/Fonts/PingFang.ttc",
+]
+
+
+def load_font(size: int):
+    for path in FONT_CANDIDATES:
+        try:
+            return ImageFont.truetype(path, size)
+        except Exception:
+            continue
+    return ImageFont.load_default()
 
 
 def render(lines: list[str], out_bin: Path, preview: Path | None = None) -> tuple[int, int]:
-    font = ImageFont.truetype(FONT, 12)
+    font = load_font(12)
     H = max(1, len(lines) * LINE_H)
 
     img = Image.new("1", (W, H), 0)
