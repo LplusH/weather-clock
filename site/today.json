@@ -1,21 +1,21 @@
 {
-  "date": "2026-10-24",
-  "weekday": "星期六",
-  "lyric": "懷著樂觀總有轉機 今天珍惜今天 逢凝望我心所愛的你 我已彷彿會飛",
+  "date": "2026-10-25",
+  "weekday": "星期日",
+  "lyric": "不要緊 山野都有霧燈 頑童亦學乖不敢太勇敢 世上有多少個繽紛樂園 任你行",
   "song": {
-    "title": "今日",
+    "title": "任我行",
     "artist": "陈奕迅",
     "year": null,
     "hot": 1,
     "tags": []
   },
   "meta": {
-    "generated_at": "2026-10-24T00:37:29+00:00",
+    "generated_at": "2026-10-25T00:19:07+00:00",
     "weather": "cloudy",
     "special": null,
     "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 31,
-    "line_no": 20
+    "candidates": 67,
+    "line_no": 15
   }
 }
