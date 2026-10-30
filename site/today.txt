@@ -1,5 +1,5 @@
-date=2026-10-29
-weekday=星期四
+date=2026-10-30
+weekday=星期五
 lyric1=不要緊山野都有霧燈
 lyric2=頑童亦學乖不敢太勇敢
 lyric3=世上有多少個繽紛樂園
