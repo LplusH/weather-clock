@@ -1,8 +1,6 @@
-date=2026-10-30
-weekday=星期五
-lyric1=不要緊山野都有霧燈
-lyric2=頑童亦學乖不敢太勇敢
-lyric3=世上有多少個繽紛樂園
-lyric4=任你行
-title=任我行
-artist=陈奕迅
+date=2026-10-31
+weekday=星期六
+lyric1=螞蟻有洞穴家有一扇門
+lyric2=門外有風呼呼叫
+title=四季歌
+artist=黃耀明

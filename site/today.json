@@ -1,21 +1,26 @@
 {
-  "date": "2026-10-30",
-  "weekday": "星期五",
-  "lyric": "不要緊 山野都有霧燈 頑童亦學乖不敢太勇敢 世上有多少個繽紛樂園 任你行",
+  "date": "2026-10-31",
+  "weekday": "星期六",
+  "lyric": "螞蟻有洞穴 家有一扇門 門外有風呼呼叫",
   "song": {
-    "title": "任我行",
-    "artist": "陈奕迅",
-    "year": null,
+    "title": "四季歌",
+    "artist": "黃耀明",
+    "year": 1995,
     "hot": 1,
-    "tags": []
+    "tags": [
+      "哲理",
+      "生活",
+      "春",
+      "秋"
+    ]
   },
   "meta": {
-    "generated_at": "2026-10-30T01:55:28+00:00",
+    "generated_at": "2026-10-31T01:34:31+00:00",
     "weather": "cloudy",
     "special": null,
     "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 67,
-    "line_no": 15
+    "candidates": 27,
+    "line_no": 18
   }
 }
