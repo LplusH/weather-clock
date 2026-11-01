@@ -1,26 +1,21 @@
 {
-  "date": "2026-10-31",
-  "weekday": "星期六",
-  "lyric": "螞蟻有洞穴 家有一扇門 門外有風呼呼叫",
+  "date": "2026-11-01",
+  "weekday": "星期日",
+  "lyric": "懷著樂觀總有轉機 今天珍惜今天 逢凝望我心所愛的你 我已彷彿會飛",
   "song": {
-    "title": "四季歌",
-    "artist": "黃耀明",
-    "year": 1995,
+    "title": "今日",
+    "artist": "陈奕迅",
+    "year": null,
     "hot": 1,
-    "tags": [
-      "哲理",
-      "生活",
-      "春",
-      "秋"
-    ]
+    "tags": []
   },
   "meta": {
-    "generated_at": "2026-10-31T01:34:31+00:00",
+    "generated_at": "2026-11-01T01:06:04+00:00",
     "weather": "cloudy",
     "special": null,
     "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 27,
-    "line_no": 18
+    "candidates": 31,
+    "line_no": 20
   }
 }
