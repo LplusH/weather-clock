@@ -1,21 +1,21 @@
 {
-  "date": "2026-11-06",
-  "weekday": "星期五",
-  "lyric": "不要緊 山野都有霧燈 頑童亦學乖不敢太勇敢 世上有多少個繽紛樂園 任你行",
+  "date": "2026-11-07",
+  "weekday": "星期六",
+  "lyric": "逝去的 錯愛變成鼓舞 就算鑽進了冤枉路 無負你 行錯路",
   "song": {
-    "title": "任我行",
-    "artist": "陈奕迅",
+    "title": "一加一",
+    "artist": "林一峰",
     "year": null,
     "hot": 1,
     "tags": []
   },
   "meta": {
-    "generated_at": "2026-11-06T02:23:04+00:00",
+    "generated_at": "2026-11-07T01:52:33+00:00",
     "weather": "cloudy",
-    "special": null,
+    "special": "節氣·立冬",
     "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 67,
-    "line_no": 15
+    "candidates": 20,
+    "line_no": 20
   }
 }
