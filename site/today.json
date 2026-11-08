@@ -1,21 +1,21 @@
 {
-  "date": "2026-11-07",
-  "weekday": "星期六",
-  "lyric": "逝去的 錯愛變成鼓舞 就算鑽進了冤枉路 無負你 行錯路",
+  "date": "2026-11-08",
+  "weekday": "星期日",
+  "lyric": "快乐是种自由 不靠谁拯救 Fashion 要有自己味道才足够 小宇宙一直为你加油 噼 酷 啪 Q 噼 酷 啪 Q",
   "song": {
-    "title": "一加一",
-    "artist": "林一峰",
+    "title": "小宇宙",
+    "artist": "陈奕迅",
     "year": null,
     "hot": 1,
     "tags": []
   },
   "meta": {
-    "generated_at": "2026-11-07T01:52:33+00:00",
+    "generated_at": "2026-11-08T01:24:01+00:00",
     "weather": "cloudy",
-    "special": "節氣·立冬",
+    "special": null,
     "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 20,
-    "line_no": 20
+    "candidates": 50,
+    "line_no": 42
   }
 }
