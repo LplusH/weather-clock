@@ -1,21 +1,21 @@
 {
-  "date": "2026-11-09",
-  "weekday": "星期一",
-  "lyric": "讲下真话好过食素 英：我谂落你又有你个一套 同人social都系赞下人好 为左功劳无谓扮清高",
+  "date": "2026-11-10",
+  "weekday": "星期二",
+  "lyric": "習慣無常 才會慶幸 講真 天涯途上 誰是客 散席時 怎麼分",
   "song": {
-    "title": "任你点",
-    "artist": "杨千嬅",
+    "title": "落花流水",
+    "artist": "陈奕迅",
     "year": null,
     "hot": 1,
     "tags": []
   },
   "meta": {
-    "generated_at": "2026-11-09T01:42:42+00:00",
+    "generated_at": "2026-11-10T04:04:42+00:00",
     "weather": "cloudy",
     "special": null,
     "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 94,
-    "line_no": 86
+    "candidates": 49,
+    "line_no": 43
   }
 }

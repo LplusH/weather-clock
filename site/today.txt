@@ -1,10 +1,7 @@
-date=2026-11-09
-weekday=星期一
-lyric1=讲下真话好过食素
-lyric2=英：我谂落你又有你个
-lyric3=一套
-lyric4=同人social都系
-lyric5=赞下人好
-lyric6=为左功劳无谓扮清高
-title=任你点
-artist=杨千嬅
+date=2026-11-10
+weekday=星期二
+lyric1=習慣無常才會慶幸講真
+lyric2=天涯途上誰是客散席時
+lyric3=怎麼分
+title=落花流水
+artist=陈奕迅
