@@ -1,21 +1,21 @@
 {
-  "date": "2026-11-10",
-  "weekday": "星期二",
-  "lyric": "習慣無常 才會慶幸 講真 天涯途上 誰是客 散席時 怎麼分",
+  "date": "2026-11-11",
+  "weekday": "星期三",
+  "lyric": "不要紧 山野都有雾灯 顽童亦学乖不敢太勇敢 世上有多少个缤纷乐园 任你行 从何时你也学会不要离群",
   "song": {
-    "title": "落花流水",
+    "title": "任我",
     "artist": "陈奕迅",
     "year": null,
     "hot": 1,
     "tags": []
   },
   "meta": {
-    "generated_at": "2026-11-10T04:04:42+00:00",
+    "generated_at": "2026-11-11T01:54:53+00:00",
     "weather": "cloudy",
     "special": null,
     "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 49,
-    "line_no": 43
+    "candidates": 82,
+    "line_no": 15
   }
 }

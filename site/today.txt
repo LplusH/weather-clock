@@ -1,7 +1,10 @@
-date=2026-11-10
-weekday=星期二
-lyric1=習慣無常才會慶幸講真
-lyric2=天涯途上誰是客散席時
-lyric3=怎麼分
-title=落花流水
+date=2026-11-11
+weekday=星期三
+lyric1=不要紧山野都有雾灯
+lyric2=顽童亦学乖不敢太勇敢
+lyric3=世上有多少个缤纷乐园
+lyric4=任你行
+lyric5=从何时你也学会不要离
+lyric6=群
+title=任我
 artist=陈奕迅
