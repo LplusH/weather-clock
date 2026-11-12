@@ -1,10 +1,8 @@
-date=2026-11-11
-weekday=星期三
-lyric1=不要紧山野都有雾灯
-lyric2=顽童亦学乖不敢太勇敢
-lyric3=世上有多少个缤纷乐园
-lyric4=任你行
-lyric5=从何时你也学会不要离
-lyric6=群
-title=任我
+date=2026-11-12
+weekday=星期四
+lyric1=懷著樂觀總有轉機
+lyric2=今天珍惜今天
+lyric3=逢凝望我心所愛的你
+lyric4=我已彷彿會飛
+title=今日
 artist=陈奕迅

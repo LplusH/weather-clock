@@ -1,21 +1,21 @@
 {
-  "date": "2026-11-11",
-  "weekday": "星期三",
-  "lyric": "不要紧 山野都有雾灯 顽童亦学乖不敢太勇敢 世上有多少个缤纷乐园 任你行 从何时你也学会不要离群",
+  "date": "2026-11-12",
+  "weekday": "星期四",
+  "lyric": "懷著樂觀總有轉機 今天珍惜今天 逢凝望我心所愛的你 我已彷彿會飛",
   "song": {
-    "title": "任我",
+    "title": "今日",
     "artist": "陈奕迅",
     "year": null,
     "hot": 1,
     "tags": []
   },
   "meta": {
-    "generated_at": "2026-11-11T01:54:53+00:00",
+    "generated_at": "2026-11-12T02:56:18+00:00",
     "weather": "cloudy",
     "special": null,
     "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 82,
-    "line_no": 15
+    "candidates": 31,
+    "line_no": 20
   }
 }
