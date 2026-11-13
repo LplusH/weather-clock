@@ -1,5 +1,5 @@
-date=2026-11-12
-weekday=星期四
+date=2026-11-13
+weekday=星期五
 lyric1=懷著樂觀總有轉機
 lyric2=今天珍惜今天
 lyric3=逢凝望我心所愛的你
