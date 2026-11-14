@@ -1,8 +1,9 @@
-date=2026-11-13
-weekday=星期五
-lyric1=懷著樂觀總有轉機
-lyric2=今天珍惜今天
-lyric3=逢凝望我心所愛的你
-lyric4=我已彷彿會飛
-title=今日
-artist=陈奕迅
+date=2026-11-14
+weekday=星期六
+lyric1=只要愿幻想彼此
+lyric2=仍在面前闹市这天
+lyric3=灯影串串报章说今天
+lyric4=的姿采比美当天
+lyric5=用了数天反复百遍
+title=今天应该很高兴
+artist=黎明

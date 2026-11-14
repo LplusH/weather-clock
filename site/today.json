@@ -1,21 +1,21 @@
 {
-  "date": "2026-11-13",
-  "weekday": "星期五",
-  "lyric": "懷著樂觀總有轉機 今天珍惜今天 逢凝望我心所愛的你 我已彷彿會飛",
+  "date": "2026-11-14",
+  "weekday": "星期六",
+  "lyric": "只要愿幻想彼此  仍在面前 闹市这天  灯影串串 报章说今天 的姿采 比美当天 用了数天  反复 百遍",
   "song": {
-    "title": "今日",
-    "artist": "陈奕迅",
+    "title": "今天应该很高兴",
+    "artist": "黎明",
     "year": null,
     "hot": 1,
     "tags": []
   },
   "meta": {
-    "generated_at": "2026-11-13T02:36:51+00:00",
+    "generated_at": "2026-11-14T02:21:41+00:00",
     "weather": "cloudy",
     "special": null,
     "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 31,
-    "line_no": 20
+    "candidates": 61,
+    "line_no": 26
   }
 }
