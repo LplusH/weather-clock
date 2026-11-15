@@ -1,21 +1,21 @@
 {
-  "date": "2026-11-14",
-  "weekday": "星期六",
-  "lyric": "只要愿幻想彼此  仍在面前 闹市这天  灯影串串 报章说今天 的姿采 比美当天 用了数天  反复 百遍",
+  "date": "2026-11-15",
+  "weekday": "星期日",
+  "lyric": "不要緊 山野都有霧燈 頑童亦學乖不敢太勇敢 世上有多少個繽紛樂園 任你行",
   "song": {
-    "title": "今天应该很高兴",
-    "artist": "黎明",
+    "title": "任我行",
+    "artist": "陈奕迅",
     "year": null,
     "hot": 1,
     "tags": []
   },
   "meta": {
-    "generated_at": "2026-11-14T02:21:41+00:00",
+    "generated_at": "2026-11-15T01:51:08+00:00",
     "weather": "cloudy",
     "special": null,
     "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 61,
-    "line_no": 26
+    "candidates": 67,
+    "line_no": 15
   }
 }

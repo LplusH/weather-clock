@@ -1,9 +1,8 @@
-date=2026-11-14
-weekday=星期六
-lyric1=只要愿幻想彼此
-lyric2=仍在面前闹市这天
-lyric3=灯影串串报章说今天
-lyric4=的姿采比美当天
-lyric5=用了数天反复百遍
-title=今天应该很高兴
-artist=黎明
+date=2026-11-15
+weekday=星期日
+lyric1=不要緊山野都有霧燈
+lyric2=頑童亦學乖不敢太勇敢
+lyric3=世上有多少個繽紛樂園
+lyric4=任你行
+title=任我行
+artist=陈奕迅
