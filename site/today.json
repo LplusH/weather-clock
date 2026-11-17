@@ -1,21 +1,21 @@
 {
-  "date": "2026-11-16",
-  "weekday": "星期一",
-  "lyric": "不要緊 山野都有霧燈 頑童亦學乖不敢太勇敢 世上有多少個繽紛樂園 任你行",
+  "date": "2026-11-17",
+  "weekday": "星期二",
+  "lyric": "一旦放手我再没所求 你设计一个幸福宇宙 竟要在最甜蜜里说分手 一世不要再做朋友",
   "song": {
-    "title": "任我行",
-    "artist": "陈奕迅",
+    "title": "小心易碎",
+    "artist": "麦浚龙",
     "year": null,
     "hot": 1,
     "tags": []
   },
   "meta": {
-    "generated_at": "2026-11-16T01:58:43+00:00",
+    "generated_at": "2026-11-17T04:28:01+00:00",
     "weather": "cloudy",
     "special": null,
     "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 67,
-    "line_no": 15
+    "candidates": 35,
+    "line_no": 29
   }
 }
