@@ -1,8 +1,7 @@
-date=2026-11-17
-weekday=星期二
-lyric1=一旦放手我再没所求
-lyric2=你设计一个幸福宇宙
-lyric3=竟要在最甜蜜里说分手
-lyric4=一世不要再做朋友
-title=小心易碎
-artist=麦浚龙
+date=2026-11-18
+weekday=星期三
+lyric1=大多数人的眼光停在3
+lyric2=楼所有只能看到
+lyric3=满街的垃圾而我在
+title=任天堂
+artist=陈奕迅

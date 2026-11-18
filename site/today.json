@@ -1,21 +1,21 @@
 {
-  "date": "2026-11-17",
-  "weekday": "星期二",
-  "lyric": "一旦放手我再没所求 你设计一个幸福宇宙 竟要在最甜蜜里说分手 一世不要再做朋友",
+  "date": "2026-11-18",
+  "weekday": "星期三",
+  "lyric": "大多数人的眼光停在3楼所有只能看到 满街的垃圾 而我在",
   "song": {
-    "title": "小心易碎",
-    "artist": "麦浚龙",
+    "title": "任天堂",
+    "artist": "陈奕迅",
     "year": null,
     "hot": 1,
     "tags": []
   },
   "meta": {
-    "generated_at": "2026-11-17T04:28:01+00:00",
+    "generated_at": "2026-11-18T03:41:25+00:00",
     "weather": "cloudy",
     "special": null,
     "method": "ai",
     "lyrics_source": "cache",
-    "candidates": 35,
-    "line_no": 29
+    "candidates": 81,
+    "line_no": 63
   }
 }
