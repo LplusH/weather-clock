@@ -1,7 +1,8 @@
-date=2026-11-18
-weekday=星期三
-lyric1=大多数人的眼光停在3
-lyric2=楼所有只能看到
-lyric3=满街的垃圾而我在
-title=任天堂
+date=2026-11-19
+weekday=星期四
+lyric1=不要緊山野都有霧燈
+lyric2=頑童亦學乖不敢太勇敢
+lyric3=世上有多少個繽紛樂園
+lyric4=任你行
+title=任我行
 artist=陈奕迅
